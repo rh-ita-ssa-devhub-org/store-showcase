@@ -106,7 +106,6 @@ spec:
       required:
         - db_username
         - db_name
-        - java_package_name
       properties:
         db_username:
           title: Database Username
