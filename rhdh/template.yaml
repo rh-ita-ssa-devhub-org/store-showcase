@@ -28,7 +28,7 @@ spec:
           title: Description
           type: string
           description: Help others understand what this website is for.
-          default: A cool quarkus app
+          default: The frontend application for the store
     - title: Provide Information for Backend Orders Application
       required:
         - component_id
@@ -38,7 +38,7 @@ spec:
           title: Name
           type: string
           description: Unique name of the component
-          default: store-orders-project
+          default: orders-backend
           ui:field: EntityNamePicker
           maxLength: 18
         group_id:
@@ -49,11 +49,11 @@ spec:
         artifact_id:
           title: Artifact Id
           type: string
-          default: quarkus-app
+          default: orders-backend
           description: Maven Artifact Id
         java_package_name:
           title: Java Package Name
-          default: com.redhat.rhdh
+          default: com.redhat.demo
           type: string
           description: Name for the java package. eg (com.redhat.blah)
         description:
@@ -81,7 +81,7 @@ spec:
         artifact_id:
           title: Artifact Id
           type: string
-          default: quarkus-app
+          default: store-backend
           description: Maven Artifact Id
         java_package_name:
           title: Java Package Name
@@ -92,17 +92,25 @@ spec:
           title: Description
           type: string
           description: Help others understand what this website is for.
-          default: A cool quarkus app
+          default: The orders backend application for the store
     - title: Provide Information for The Database
       required:
-        - component_id
+        - db_username
+        - db_name
         - java_package_name
       properties:
-        component_id:
-          title: Name
-          type: string
+        db_username:
+          title: Database Username
+          type: store-backend-db-username
           description: Unique name of the component
           default: my-quarkus-app
+          ui:field: EntityNamePicker
+          maxLength: 18
+        db_name:
+          title: Database Name
+          type: string
+          description: Unique name of the component
+          default: store-db
           ui:field: EntityNamePicker
           maxLength: 18
         description:
