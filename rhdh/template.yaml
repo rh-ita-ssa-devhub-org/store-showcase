@@ -109,7 +109,7 @@ spec:
       properties:
         db_username:
           title: Database Username
-          type: store-backend-db-username
+          type: string
           description: Unique name of the component
           default: ordersuser
           ui:field: EntityNamePicker
@@ -121,11 +121,6 @@ spec:
           default: ordersdb
           ui:field: EntityNamePicker
           maxLength: 18
-        db_description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
-          default: Please enter a description for the database
     - title: Provide Information for Backend kafka Configuration
       required:
         - kafka_topic_name
