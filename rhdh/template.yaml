@@ -196,7 +196,7 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./skeleton/store-frontend
+        url: ./store-frontend
         values:
           component_id: ${{ parameters.fe_component_id }}
           description: ${{ parameters.fe_description }}
@@ -213,7 +213,7 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./skeleton/store-backend
+        url: ./store-backend
         values:
           component_id: ${{ parameters.be_st_component_id }}
           description: ${{ parameters.be_st_description }}
@@ -230,7 +230,7 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./skeleton/orders-backend
+        url: ../orders-backend
         values:
           component_id: ${{ parameters.be_or_component_id }}
           description: ${{ parameters.be_or_description }}
@@ -273,22 +273,22 @@ spec:
       name: Register Frontend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps.publish-frontend.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: "../store-frontend/catalog-info.yaml"
     
     - id: register-store-backend
       name: Register Store Backend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps.publish-store-backend.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: "../store-backend/catalog-info.yaml"
 
     - id: register-orders-backend
       name: Register Orders Backend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps.publish-orders-backend.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: "../orders-backend/catalog-info.yaml"
 
     - id: template-gitops-orders-backend
       name: Generating Deployment Resources
