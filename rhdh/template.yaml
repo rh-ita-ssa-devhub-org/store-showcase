@@ -55,7 +55,7 @@ spec:
           type: string
           default: com.redhat.demo
           description: Maven Group Id
-       be_or_artifact_id:
+        be_or_artifact_id:
           title: Artifact Id
           type: string
           default: orders-backend
