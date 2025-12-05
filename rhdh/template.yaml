@@ -69,7 +69,7 @@ spec:
           title: Description
           type: string
           description: Help others understand what this website is for.
-          default: A cool quarkus app
+          default: The backend to manage orders for the store
     - title: Provide Information for Backend Store Application
       required:
         - component_id
