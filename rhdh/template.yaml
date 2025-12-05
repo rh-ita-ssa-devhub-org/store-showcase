@@ -252,6 +252,7 @@ spec:
         repoVisibility: public
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
+
     - id: publish-store-backend
       name: Publish Store Backend
       action: publish:gitlab
@@ -260,6 +261,7 @@ spec:
         repoVisibility: public
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}
+
     - id: publish-orders-backend
       name: Publish Orders Backend
       action: publish:gitlab
@@ -273,22 +275,22 @@ spec:
       name: Register Frontend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish-frontend'].output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        repoContentsUrl: ${{ steps.publish-frontend.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
     
     - id: register-store-backend
       name: Register Store Backend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish-store-backend'].output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        repoContentsUrl: ${{ stepspublish-store-backend.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
 
     - id: register-orders-backend
       name: Register Orders Backend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish-orders-backend'].output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        repoContentsUrl: ${{ steps.publish-orders-backend.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
 
     - id: template-gitops-orders-backend
       name: Generating Deployment Resources
@@ -330,7 +332,15 @@ spec:
   output:
     links:
       - title: Source Code Repository
-        url: ${{ steps.publish.output.remoteUrl }}
+        url: ${{ steps.publish-frontend.output.remoteUrl }}
       - title: Open Component in catalog
         icon: catalog
-        entityRef: ${{ steps.register.output.entityRef }}
+        entityRef: ${{ steps.register-frontend.output.entityRef }}
+      - title: Source Code Repository
+        url: ${{ steps.publish-store-backend.output.remoteUrl }}
+        icon: catalog
+        entityRef: ${{ steps.register-store-backend.output.entityRef }}
+      - title: Source Code Repository
+        url: ${{ steps.publish-orders-backend.output.remoteUrl }}
+        icon: catalog
+        entityRef: ${{ steps.register-orders-backend.output.entityRef }}

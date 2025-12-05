@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="store-orders-project" />
-        <module name="spring-store-project" />
-        <module name="store-backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="spring-store-project" target="11" />
+      <module name="store-backend" target="23" />
+      <module name="store-orders-project" target="23" />
       <module name="store-project" target="1.5" />
     </bytecodeTargetLevel>
   </component>
