@@ -276,21 +276,21 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish-frontend.output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
+        catalogInfoPath: "/catalog-info.yaml"
     
     - id: register-store-backend
       name: Register Store Backend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ stepspublish-store-backend.output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
+        repoContentsUrl: ${{ steps.publish-store-backend.output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
 
     - id: register-orders-backend
       name: Register Orders Backend
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish-orders-backend.output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
+        catalogInfoPath: "/catalog-info.yaml"
 
     - id: template-gitops-orders-backend
       name: Generating Deployment Resources
