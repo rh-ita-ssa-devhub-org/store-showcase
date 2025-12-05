@@ -13,33 +13,17 @@ spec:
   owner: rhdh
   type: service
   parameters:
-    - title: Provide Information for FrontEnd Application
+    - title:  Information for FrontEnd Application
       required:
-        - component_id
-        - java_package_name
+        - fe_component_id
       properties:
-        component_id:
+        fe_component_id:
           title: Name
           type: string
           description: Unique name of the component
-          default: my-quarkus-app
+          default: store-frontend
           ui:field: EntityNamePicker
           maxLength: 18
-        group_id:
-          title: Group Id
-          type: string
-          default: com.redhat.rhdh
-          description: Maven Group Id
-        artifact_id:
-          title: Artifact Id
-          type: string
-          default: quarkus-app
-          description: Maven Artifact Id
-        java_package_name:
-          title: Java Package Name
-          default: com.redhat.rhdh
-          type: string
-          description: Name for the java package. eg (com.redhat.blah)
         description:
           title: Description
           type: string
@@ -50,17 +34,17 @@ spec:
         - component_id
         - java_package_name
       properties:
-        component_id:
+        be_component_id:
           title: Name
           type: string
           description: Unique name of the component
-          default: my-quarkus-app
+          default: store-orders-project
           ui:field: EntityNamePicker
           maxLength: 18
         group_id:
           title: Group Id
           type: string
-          default: com.redhat.rhdh
+          default: com.redhat.demo
           description: Maven Group Id
         artifact_id:
           title: Artifact Id
@@ -86,13 +70,13 @@ spec:
           title: Name
           type: string
           description: Unique name of the component
-          default: my-quarkus-app
+          default: store-backend
           ui:field: EntityNamePicker
           maxLength: 18
         group_id:
           title: Group Id
           type: string
-          default: com.redhat.rhdh
+          default: com.redhat.demo
           description: Maven Group Id
         artifact_id:
           title: Artifact Id
@@ -101,7 +85,7 @@ spec:
           description: Maven Artifact Id
         java_package_name:
           title: Java Package Name
-          default: com.redhat.rhdh
+          default: com.redhat.demo
           type: string
           description: Name for the java package. eg (com.redhat.blah)
         description:
@@ -121,21 +105,6 @@ spec:
           default: my-quarkus-app
           ui:field: EntityNamePicker
           maxLength: 18
-        group_id:
-          title: Group Id
-          type: string
-          default: com.redhat.rhdh
-          description: Maven Group Id
-        artifact_id:
-          title: Artifact Id
-          type: string
-          default: quarkus-app
-          description: Maven Artifact Id
-        java_package_name:
-          title: Java Package Name
-          default: com.redhat.rhdh
-          type: string
-          description: Name for the java package. eg (com.redhat.blah)
         description:
           title: Description
           type: string
@@ -143,31 +112,19 @@ spec:
           default: A cool quarkus app
     - title: Provide Information for Backend kafka Configuration
       required:
-        - component_id
-        - java_package_name
+        - kafka_topic_name
+        - kafka_cluster_name
       properties:
-        component_id:
-          title: Name
+        kafka_topic_name:
+          title: Topic Name
           type: string
-          description: Unique name of the component
-          default: my-quarkus-app
-          ui:field: EntityNamePicker
-          maxLength: 18
-        group_id:
-          title: Group Id
+          default: orders-out
+          description: Kafka Topic Name to create
+        kafka_cluster_name:
+          title: Topic Cluster Name
           type: string
-          default: com.redhat.rhdh
-          description: Maven Group Id
-        artifact_id:
-          title: Artifact Id
-          type: string
-          default: quarkus-app
-          description: Maven Artifact Id
-        java_package_name:
-          title: Java Package Name
-          default: com.redhat.rhdh
-          type: string
-          description: Name for the java package. eg (com.redhat.blah)
+          default: orders-out
+          description: Name of the Kafka Cluster to create the topic in
         description:
           title: Description
           type: string

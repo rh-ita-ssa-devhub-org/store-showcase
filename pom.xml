@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>orders-project</module>
-        <module>store-project</module>
+        <module>store-backend</module>
         <module>spring-store-project</module>
 
     </modules>
