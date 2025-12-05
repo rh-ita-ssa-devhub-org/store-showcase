@@ -112,21 +112,21 @@ spec:
           title: Database Username
           type: store-backend-db-username
           description: Unique name of the component
-          default: my-quarkus-app
+          default: ordersuser
           ui:field: EntityNamePicker
           maxLength: 18
         db_name:
           title: Database Name
           type: string
           description: Unique name of the component
-          default: store-db
+          default: ordersdb
           ui:field: EntityNamePicker
           maxLength: 18
         db_description:
           title: Description
           type: string
           description: Help others understand what this website is for.
-          default: A cool quarkus app
+          default: Please enter a description for the database
     - title: Provide Information for Backend kafka Configuration
       required:
         - kafka_topic_name
@@ -140,7 +140,7 @@ spec:
         kafka_cluster_name:
           title: Topic Cluster Name
           type: string
-          default: orders-out
+          default: orders-cluster
           description: Name of the Kafka Cluster to create the topic in
         kafka_description:
           title: Description
@@ -160,20 +160,7 @@ spec:
       dependencies:
         image_registry:
           oneOf:
-            - properties:
-                image_registry:
-                  enum:
-                    - OpenShift
-                image_host:
-                  title: Image Host
-                  type: string
-                  description: Host for storing image
-                  default: image-registry.openshift-image-registry.svc:5000
-                image_tag:
-                  title: Image Tag
-                  default: latest
-                  type: string
-                  description: Build Image tag
+
             - properties:
                 image_registry:
                   enum:
