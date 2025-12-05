@@ -125,6 +125,7 @@ spec:
       required:
         - kafka_topic_name
         - kafka_cluster_name
+        - kafka_replicas
       properties:
         kafka_topic_name:
           title: Topic Name
@@ -140,7 +141,7 @@ spec:
           title: Replicas
           type: string
           description: Select the number of replicas for the Kafka Cluster.
-          default: 3
+          default: "3"
     - title: Provide Image Registry Information
       required:
         - image_registry
