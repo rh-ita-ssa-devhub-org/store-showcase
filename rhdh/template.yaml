@@ -193,7 +193,7 @@ spec:
 
   steps:
     - id: template-frontend
-      name: Fetch Skeleton + Template
+      name: Fetch Frontend  Template
       action: fetch:template
       input:
         url: ./store-frontend
@@ -210,7 +210,7 @@ spec:
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
     
     - id: template-store-backend
-      name: Fetch Skeleton + Template
+      name: Fetch Store Backend Template
       action: fetch:template
       input:
         url: ./store-backend
@@ -227,7 +227,7 @@ spec:
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}
     
     - id: template-orders-backend
-      name: Fetch Skeleton + Template
+      name: Fetch Orders Backend Template
       action: fetch:template
       input:
         url: ../orders-backend
