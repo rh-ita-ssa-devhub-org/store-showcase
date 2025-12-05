@@ -1,0 +1,10 @@
+namespace: store-demo-uat
+#amePrefix: quick-start-test
+patchesStrategicMerge:
+- patch-deployment.yaml
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+

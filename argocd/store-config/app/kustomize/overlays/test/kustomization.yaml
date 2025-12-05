@@ -1,0 +1,13 @@
+namespace: store-demo-test
+#amePrefix: quick-start-test
+patchesStrategicMerge:
+- patch-deployment.yaml
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+images:
+- name: quay.io/mcombi/quarkus-store-project
+  newName: quay.io/mcombi/quarkus-store-project
+  newTag: 9f7ca9399e76192a0c86182de280378aacdfef26

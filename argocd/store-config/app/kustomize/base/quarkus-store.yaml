@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-store
+  labels:
+    app.openshift.io/runtime: quarkus
+    app: quarkus-store
+    app-with-metrics: quarkus-store
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-store
+  template:
+    metadata:
+      labels:
+        app: quarkus-store
+        version: v1
+    spec:
+      containers:
+        - name: quarkus-store-project
+          image: quay.io/mcombi/quarkus-store-project:1.0
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+              name: tpc-port
+#          readinessProbe:
+#            httpGet:
+#              path: /q/health
+#              port: 8080
+#              scheme: HTTP
+#            timeoutSeconds: 1
+#            periodSeconds: 10
+#            successThreshold: 1
+#            failureThreshold: 3
+#          livenessProbe:
+#            httpGet:
+#              path: /q/health/
+#              port: 8080
+#              scheme: HTTP
+#            timeoutSeconds: 1
+#            periodSeconds: 10
+#            successThreshold: 1
+#            failureThreshold: 3
+
+

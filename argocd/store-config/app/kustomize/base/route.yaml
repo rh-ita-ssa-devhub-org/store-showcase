@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: store-route
+  labels:
+    app: quarkus-store
+    app.kubernetes.io/instance: quarkus-store
+spec:
+  to:
+    kind: Service
+    name: store-service
+    weight: 100
+  port:
+    targetPort: http
+  wildcardPolicy: None
