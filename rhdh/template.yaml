@@ -16,6 +16,7 @@ spec:
     - title:  Information for FrontEnd Application
       required:
         - fe_component_id
+        - number_of_users
       properties:
         fe_component_id:
           title: Name
@@ -24,6 +25,14 @@ spec:
           default: store-frontend
           ui:field: EntityNamePicker
           maxLength: 18
+        number_of_users:
+          title: Number of Users
+          type: string
+          description: Expected number of users for the application
+          enum:
+            - 10-100
+            - 100-1000
+            - 1000-10000
         description:
           title: Description
           type: string
