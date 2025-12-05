@@ -273,19 +273,22 @@ spec:
       name: Register Frontend
       action: catalog:register
       input:
-        catalogInfoPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}/catalog-info.yaml
+        repoContentsUrl: ${{ steps['publish-frontend'].output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
     
     - id: register-store-backend
       name: Register Store Backend
       action: catalog:register
       input:
-        catalogInfoPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}/catalog-info.yaml
+        repoContentsUrl: ${{ steps['publish-store-backend'].output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
 
     - id: register-orders-backend
       name: Register Orders Backend
       action: catalog:register
       input:
-        catalogInfoPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}/catalog-info.yaml
+        repoContentsUrl: ${{ steps['publish-orders-backend'].output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
 
     - id: template-gitops-orders-backend
       name: Generating Deployment Resources
