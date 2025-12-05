@@ -40,64 +40,64 @@ spec:
           default: The frontend application for the store
     - title: Provide Information for Backend Orders Application
       required:
-        - component_id
-        - java_package_name
+        - be_or_component_id
+        - be_or_java_package_name
       properties:
-        be_component_id:
+        be_or_be_component_id:
           title: Name
           type: string
           description: Unique name of the component
           default: orders-backend
           ui:field: EntityNamePicker
           maxLength: 18
-        group_id:
+        be_or_group_id:
           title: Group Id
           type: string
           default: com.redhat.demo
           description: Maven Group Id
-        artifact_id:
+       be_or_artifact_id:
           title: Artifact Id
           type: string
           default: orders-backend
           description: Maven Artifact Id
-        java_package_name:
+        be_or_java_package_name:
           title: Java Package Name
           default: com.redhat.demo
           type: string
           description: Name for the java package. eg (com.redhat.blah)
-        description:
+        be_or_description:
           title: Description
           type: string
           description: Help others understand what this website is for.
           default: The backend to manage orders for the store
     - title: Provide Information for Backend Store Application
       required:
-        - component_id
-        - java_package_name
+        - be_st_component_id
+        - be_st_java_package_name
       properties:
-        component_id:
+        be_st_component_id:
           title: Name
           type: string
           description: Unique name of the component
           default: store-backend
           ui:field: EntityNamePicker
           maxLength: 18
-        group_id:
+        be_st_group_id:
           title: Group Id
           type: string
           default: com.redhat.demo
           description: Maven Group Id
-        artifact_id:
+        be_st_artifact_id:
           title: Artifact Id
           type: string
           default: store-backend
           description: Maven Artifact Id
-        java_package_name:
+        be_st_java_package_name:
           title: Java Package Name
           default: com.redhat.demo
           type: string
           description: Name for the java package. eg (com.redhat.blah)
-        description:
+        be_st_description:
           title: Description
           type: string
           description: Help others understand what this website is for.
@@ -122,7 +122,7 @@ spec:
           default: store-db
           ui:field: EntityNamePicker
           maxLength: 18
-        description:
+        db_description:
           title: Description
           type: string
           description: Help others understand what this website is for.
@@ -142,7 +142,7 @@ spec:
           type: string
           default: orders-out
           description: Name of the Kafka Cluster to create the topic in
-        description:
+        kafka_description:
           title: Description
           type: string
           description: Help others understand what this website is for.
