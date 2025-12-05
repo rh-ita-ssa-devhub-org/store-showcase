@@ -140,7 +140,7 @@ spec:
           title: Replicas
           type: string
           description: Select the number of replicas for the Kafka Cluster.
-          default: "3
+          default: 3
     - title: Provide Image Registry Information
       required:
         - image_registry
