@@ -196,7 +196,7 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./store-frontend
+        url: ../store-frontend
         values:
           component_id: ${{ parameters.fe_component_id }}
           description: ${{ parameters.fe_description }}
@@ -213,7 +213,7 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./store-backend
+        url: ../store-backend
         values:
           component_id: ${{ parameters.be_st_component_id }}
           description: ${{ parameters.be_st_description }}
@@ -230,7 +230,7 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./orders-backend
+        url: ../orders-backend
         values:
           component_id: ${{ parameters.be_or_component_id }}
           description: ${{ parameters.be_or_description }}
@@ -245,7 +245,7 @@ spec:
     
 
     - id: publish-frontend
-      name: Publish
+      name: Publish Frontend
       action: publish:gitlab
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}"
@@ -253,7 +253,7 @@ spec:
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
     - id: publish-store-backend
-      name: Publish
+      name: Publish Store Backend
       action: publish:gitlab
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_st_component_id}}"
@@ -261,7 +261,7 @@ spec:
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}
     - id: publish-orders-backend
-      name: Publish
+      name: Publish Orders Backend
       action: publish:gitlab
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_or_component_id}}"
@@ -270,25 +270,25 @@ spec:
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}
 
     - id: register-frontend
-      name: Register
+      name: Register Frontend
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        catalogInfoPath: "../store-frontend/catalog-info.yaml"
     
     - id: register-store-backend
-      name: Register
+      name: Register Store Backend
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        catalogInfoPath: "../store-backend/catalog-info.yaml"
 
     - id: register-orders-backend
-      name: Register
+      name: Register Orders Backend
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        catalogInfoPath: "../orders-backend/catalog-info.yaml"
 
     - id: template-gitops-orders-backend
       name: Generating Deployment Resources
