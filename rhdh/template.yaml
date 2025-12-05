@@ -43,7 +43,7 @@ spec:
         - be_or_component_id
         - be_or_java_package_name
       properties:
-        be_or_be_component_id:
+        be_or_component_id:
           title: Name
           type: string
           description: Unique name of the component
