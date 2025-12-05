@@ -139,10 +139,6 @@ spec:
         kafka_replicas:
           title: Replicas
           type: string
-          enum:
-            - "1"
-            - "2
-            - "3"
           description: Select the number of replicas for the Kafka Cluster.
           default: "3
     - title: Provide Image Registry Information
