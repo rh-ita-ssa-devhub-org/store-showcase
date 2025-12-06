@@ -1,0 +1,56 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev1-app-gateway-dev
+  namespace: rhdh-gitops
+  labels:
+    rht-gitops.com/rhdh-gitops: dev1-app-gateway
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab-gitlab.apps.cluster-vngth.vngth.sandbox1898.opentlc.com/dev1/app-gateway-gitops.git
+    targetRevision: HEAD
+    path: ./helm/quarkus-template
+    helm:
+      values: |
+        nameOverride: app-gateway
+        imagePullSecrets:
+          - name: app-gateway-registry-creds-app
+        user: dev1
+        service:
+          port: 8080
+        image:
+          registry: Quay
+          organization: dev1
+          host: quay.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          name: app-gateway
+          namespace: dev1-app-gateway-dev
+          tag: latest
+          password: MTEwMjI0
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev1-app-gateway-dev
+  ignoreDifferences:
+    - group: '*'
+      jqPathExpressions:
+        - '.imagePullSecrets[] | select(.name|test(".-dockercfg-."))'
+      kind: ServiceAccount
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+    managedNamespaceMetadata:
+      labels:
+        argocd.argoproj.io/managed-by: rhdh-gitops
+    retry:
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 10m # the maximum amount of time allowed for the backoff strategy
