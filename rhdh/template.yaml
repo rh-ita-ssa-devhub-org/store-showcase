@@ -10,7 +10,7 @@ metadata:
     - quarkus
     - maven
 spec:
-  owner: rhdh
+  owner: rhdh 
   type: service
   parameters:
     - title:  Information for FrontEnd Application
@@ -305,7 +305,7 @@ spec:
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
 
     - id: publish-frontend-gitops
-      name: Publish Frontend
+      name: Publish Frontend Gitops
       action: publish:gitlab
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}-gitops"
@@ -371,7 +371,7 @@ spec:
       name: Generating Deployment for Common Config
       action: fetch:template
       input:
-        url: ./manifest/argocd/store-common-config
+        url: ./manifest/argocd/store-common-config/kustomize/base
         copyWithoutTemplating: []
         values:
           component_id: ${{ parameters.be_or_component_id }}
@@ -396,14 +396,69 @@ spec:
         description: gitops resources for infra
         sourcePath: ./${{ user.entity.metadata.name }}-store-infra-gitops
 
+    - id: template-orders-backend-pipeline
+      name: Generating Deployment for Orders Backend Pipeline
+      action: fetch:template
+      input:
+        url: ./skeleton/quarkus-pipeline/
+        copyWithoutTemplating: []
+        values:
+          component_id: orders-backend-pipeline
+          description: 'Gitops resources for the common config'
+          namespace: store-showcase-dev
+          owner: ${{ user.entity.metadata.name }}
+          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          host: ${{ parameters.repo.host }}
+          destination: ${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-pipeline
+          port: 8080
+          gitops_namespace: rhdh-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-pipeline
+
+    - id: publish-orders-backend-pipeline
+      name: Publish Orders Backend Pipeline
+      action: publish:gitlab
+      input:
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_or_component_id}}-pipeline"
+        repoVisibility: public
+        defaultBranch: main
+        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-pipeline
+
+     - id: template-store-backend-pipeline
+      name: Generating Deployment for Store Backend Pipeline
+      action: fetch:template
+      input:
+        url: ./skeleton/quarkus-pipeline/
+        copyWithoutTemplating: []
+        values:
+          component_id: store-backend-pipeline
+          description: 'Gitops resources for store backend pipeline'
+          namespace: store-showcase-dev
+          owner: ${{ user.entity.metadata.name }}
+          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          host: ${{ parameters.repo.host }}
+          destination: ${{ user.entity.metadata.name }}/${{parameters.be_st_component_id}}-pipeline
+          port: 8080
+          gitops_namespace: rhdh-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-pipeline
+
+    - id: publish-orders-backend-pipeline
+      name: Publish Orders Backend Pipeline
+      action: publish:gitlab
+      input:
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_st_component_id}}-pipeline"
+        repoVisibility: public
+        defaultBranch: main
+        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-pipeline
+    
+
     - id: create-argocd-resources
-      name: Create Argo CD Resources
+      name: Create Argo CD Infra
       action: argocd:create-resources
       input:
-        appName: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-bootstrap
+        appName: ${{ user.entity.metadata.name }}-store-infra-bootstrap
         argoInstance: main
         namespace: rhdh-gitops
-        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}-gitops.git
+        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
         path: 'argocd/'
 
   output:
