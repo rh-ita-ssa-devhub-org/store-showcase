@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${{ values.owner }}-${{ values.component_id }}-dev-build
+  name: ${{ values.owner }}-store-infra-build
   namespace: ${{ values.gitops_namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
@@ -16,7 +16,7 @@ spec:
     path: ./kustomize/base
     helm:
       values: |
-        nameOverride: ${{ values.component_id }}
+        nameOverride: store-infra-bootstrap
         owner: ${{ values.owner }}
         git:
           host: ${{ values.repository_host }}

@@ -392,7 +392,7 @@ spec:
       name: Generating Deployment for Common Config
       action: fetch:template
       input:
-        url: ./manifest/argocd/store-common-config/kustomize/base
+        url: ./manifest/argocd/store-common-config/
         copyWithoutTemplating: []
         values:
           component_id: ${{ parameters.be_or_component_id }}
@@ -481,7 +481,7 @@ spec:
         namespace: store-showcase
         createNamespace: true
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
-        path: '/argocd/'
+        path: 'argocd/'
 
     - id: create-argocd-resources-orders
       name: Create Argo CD Infra
@@ -492,7 +492,7 @@ spec:
         namespace: store-showcase
         createNamespace: true
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-gitops.git
-        path: '/argocd/'
+        path: 'argocd/'
 
   output:
     links:
