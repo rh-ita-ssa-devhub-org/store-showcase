@@ -423,7 +423,7 @@ spec:
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-pipeline
 
-     - id: template-store-backend-pipeline
+    - id: template-store-backend-pipeline
       name: Generating Deployment for Store Backend Pipeline
       action: fetch:template
       input:
