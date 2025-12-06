@@ -476,7 +476,7 @@ spec:
       name: Create Argo CD Infra
       action: argocd:create-resources
       input:
-        appName: ${{ user.entity.metadata.name }}-store-infra-bootstrap
+        appName: store-infra-bootstrap
         argoInstance: main
         namespace: store-showcase
         createNamespace: true
@@ -487,11 +487,11 @@ spec:
       name: Create Argo CD Infra
       action: argocd:create-resources
       input:
-        appName: ${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-bootstrap
+        appName: ${{parameters.be_or_component_id}}-bootstrap
         argoInstance: main
         namespace: store-showcase
         createNamespace: true
-        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-gitops.git
+        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/orders-backend-gitops.git
         path: 'argocd/'
 
   output:

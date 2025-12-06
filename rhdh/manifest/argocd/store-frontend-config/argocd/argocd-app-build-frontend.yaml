@@ -2,34 +2,35 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${{ values.owner }}-${{ values.frontend_component_id }}-dev
+  name: ${{ values.component_id }}-dev-build
   namespace: ${{ values.gitops_namespace }}
-  labels:
-    rht-gitops.com/${{ values.gitops_namespace }}: ${{ values.owner }}-${{ values.frontend_component_id }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   project: ${{ values.gitops_project }}
   source:
     repoURL: ${{ values.source_repository_gitops }}
     targetRevision: HEAD
-    path: ./helm/quarkus-template
+    path: ./helm/quarkus-build
     helm:
       values: |
-        nameOverride: ${{ values.frontend_component_id }}
-        imagePullSecrets:
-          - name: ${{ values.frontend_component_id }}-registry-creds-app
-        user: ${{ values.owner }}
-        service:
-          port: ${{values.port}}
+        nameOverride: ${{ values.component_id }}
+        owner: ${{ values.owner }}
+        git:
+          host: ${{ values.repository_host }}
+          repo: ${{ values.source_repository }}
         image:
           registry: ${{values.image_registry}}
           organization: ${{values.image_organization}}
+          password: ${{values.image_password}}
           host: ${{ values.image_host }}
           name: ${{ values.image_name }}
           namespace: ${{ values.namespace }}
           tag: ${{ values.image_tag }}
-          password: ${{values.image_password}}
+        cluster:
+          subdomain: ${{ values.cluster_subdomain }}
   destination:
     server: https://kubernetes.default.svc
     namespace: ${{ values.namespace }}
@@ -44,11 +45,7 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - RespectIgnoreDifferences=true
       - ApplyOutOfSyncOnly=true
-    managedNamespaceMetadata:
-      labels:
-        argocd.argoproj.io/managed-by: ${{ values.gitops_namespace }}
     retry:
       backoff:
         duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")

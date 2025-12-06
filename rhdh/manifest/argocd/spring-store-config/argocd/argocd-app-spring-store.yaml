@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${{ values.owner }}-${{ values.component_id }}-dev
+  name: ${{ values.component_id }}-dev
   namespace: ${{ values.gitops_namespace }}
   labels:
-    rht-gitops.com/${{ values.gitops_namespace }}: ${{ values.owner }}-${{ values.component_id }}
+    rht-gitops.com/${{ values.gitops_namespace }}: ${{ values.component_id }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
 spec:
@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: ${{ values.source_repository_gitops }}
     targetRevision: HEAD
-    path: ./helm/quarkus-template
+    path: ./helm/app
     helm:
       values: |
         nameOverride: ${{ values.component_id }}
