@@ -71,78 +71,78 @@ spec:
           type: string
           description: Help others understand what this website is for.
           default: The backend to manage orders for the store
-    - title: Provide Information for Backend Store Application
-      required:
-        - be_st_component_id
-        - be_st_java_package_name
-      properties:
-        be_st_component_id:
-          title: Name
-          type: string
-          description: Unique name of the component
-          default: store-backend
-          ui:field: EntityNamePicker
-          maxLength: 18
-        be_st_group_id:
-          title: Group Id
-          type: string
-          default: com.redhat.demo
-          description: Maven Group Id
-        be_st_artifact_id:
-          title: Artifact Id
-          type: string
-          default: store-backend
-          description: Maven Artifact Id
-        be_st_java_package_name:
-          title: Java Package Name
-          default: com.redhat.demo
-          type: string
-          description: Name for the java package. eg (com.redhat.blah)
-        be_st_description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
-          default: The orders backend application for the store
-    - title: Provide Information for The Database
-      required:
-        - db_username
-        - db_name
-      properties:
-        db_username:
-          title: Database Username
-          type: string
-          description: Unique name of the component
-          default: ordersuser
-          ui:field: EntityNamePicker
-          maxLength: 18
-        db_name:
-          title: Database Name
-          type: string
-          description: Unique name of the component
-          default: ordersdb
-          ui:field: EntityNamePicker
-          maxLength: 18
-    - title: Provide Information for Backend kafka Configuration
-      required:
-        - kafka_topic_name
-        - kafka_cluster_name
+    # - title: Provide Information for Backend Store Application
+    #   required:
+    #     - be_st_component_id
+    #     - be_st_java_package_name
+    #   properties:
+    #     be_st_component_id:
+    #       title: Name
+    #       type: string
+    #       description: Unique name of the component
+    #       default: store-backend
+    #       ui:field: EntityNamePicker
+    #       maxLength: 18
+    #     be_st_group_id:
+    #       title: Group Id
+    #       type: string
+    #       default: com.redhat.demo
+    #       description: Maven Group Id
+    #     be_st_artifact_id:
+    #       title: Artifact Id
+    #       type: string
+    #       default: store-backend
+    #       description: Maven Artifact Id
+    #     be_st_java_package_name:
+    #       title: Java Package Name
+    #       default: com.redhat.demo
+    #       type: string
+    #       description: Name for the java package. eg (com.redhat.blah)
+    #     be_st_description:
+    #       title: Description
+    #       type: string
+    #       description: Help others understand what this website is for.
+    #       default: The orders backend application for the store
+    # - title: Provide Information for The Database
+    #   required:
+    #     - db_username
+    #     - db_name
+    #   properties:
+    #     db_username:
+    #       title: Database Username
+    #       type: string
+    #       description: Unique name of the component
+    #       default: ordersuser
+    #       ui:field: EntityNamePicker
+    #       maxLength: 18
+    #     db_name:
+    #       title: Database Name
+    #       type: string
+    #       description: Unique name of the component
+    #       default: ordersdb
+    #       ui:field: EntityNamePicker
+    #       maxLength: 18
+    # - title: Provide Information for Backend kafka Configuration
+    #   required:
+    #     - kafka_topic_name
+    #     - kafka_cluster_name
         
-      properties:
-        kafka_topic_name:
-          title: Topic Name
-          type: string
-          default: orders-out
-          description: Kafka Topic Name to create
-        kafka_cluster_name:
-          title: Topic Cluster Name
-          type: string
-          default: orders-cluster
-          description: Name of the Kafka Cluster to create the topic in
-        # kafka_replicas:
-        #   title: Replicas
-        #   type: string
-        #   description: Select the number of replicas for the Kafka Cluster.
-        #   default: "3"
+    #   properties:
+    #     kafka_topic_name:
+    #       title: Topic Name
+    #       type: string
+    #       default: orders-out
+    #       description: Kafka Topic Name to create
+    #     kafka_cluster_name:
+    #       title: Topic Cluster Name
+    #       type: string
+    #       default: orders-cluster
+    #       description: Name of the Kafka Cluster to create the topic in
+    #     # kafka_replicas:
+    #     #   title: Replicas
+    #     #   type: string
+    #     #   description: Select the number of replicas for the Kafka Cluster.
+    #     #   default: "3"
     - title: Provide Image Registry Information
       required:
         - image_registry
@@ -207,39 +207,39 @@ spec:
                 - gitlab-gitlab.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
 
   steps:
-    - id: template-frontend
-      name: Fetch Frontend  Template
-      action: fetch:template
-      input:
-        url: ./skeleton/store-frontend
-        values:
-          component_id: ${{ parameters.fe_component_id }}
-          description: ${{ parameters.fe_description }}
-          namespace: store-showcase
-          owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}
-          port: 8080
-          gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
+    # - id: template-frontend
+    #   name: Fetch Frontend  Template
+    #   action: fetch:template
+    #   input:
+    #     url: ./skeleton/store-frontend
+    #     values:
+    #       component_id: ${{ parameters.fe_component_id }}
+    #       description: ${{ parameters.fe_description }}
+    #       namespace: store-showcase
+    #       owner: ${{ user.entity.metadata.name }}
+    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+    #       host: ${{ parameters.repo.host }}
+    #       destination: ${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}
+    #       port: 8080
+    #       gitops_namespace: rhdh-gitops
+    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
 
-    - id: template-frontend-gitops
-      name: Fetch Frontend Gitops Template
-      action: fetch:template
-      input:
-        url: ./manifest/argocd/store-frontend-config
-        values:
-          component_id: store-frontend-config
-          description: 'Gitops resources for the store frontend'
-          namespace: store-showcase
-          owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{parameters.fe_component_id}}-gitops
-          port: 8080
-          gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
+    # - id: template-frontend-gitops
+    #   name: Fetch Frontend Gitops Template
+    #   action: fetch:template
+    #   input:
+    #     url: ./manifest/argocd/store-frontend-config
+    #     values:
+    #       component_id: store-frontend-config
+    #       description: 'Gitops resources for the store frontend'
+    #       namespace: store-showcase
+    #       owner: ${{ user.entity.metadata.name }}
+    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+    #       host: ${{ parameters.repo.host }}
+    #       destination: ${{ user.entity.metadata.name }}/${{parameters.fe_component_id}}-gitops
+    #       port: 8080
+    #       gitops_namespace: rhdh-gitops
+    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
     
     - id: template-store-backend
       name: Fetch Store Backend Template
@@ -275,58 +275,58 @@ spec:
           gitops_namespace: rhdh-gitops
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-gitops
     
-    - id: template-orders-backend
-      name: Fetch Orders Backend Template
-      action: fetch:template
-      input:
-        url: ./skeleton/orders-backend
-        values:
-          component_id: ${{ parameters.be_or_component_id }}
-          description: ${{ parameters.be_or_description }}
-          namespace: store-showcase
-          owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}
-          port: 8080
-          gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}
+    # - id: template-orders-backend
+    #   name: Fetch Orders Backend Template
+    #   action: fetch:template
+    #   input:
+    #     url: ./skeleton/orders-backend
+    #     values:
+    #       component_id: ${{ parameters.be_or_component_id }}
+    #       description: ${{ parameters.be_or_description }}
+    #       namespace: store-showcase
+    #       owner: ${{ user.entity.metadata.name }}
+    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+    #       host: ${{ parameters.repo.host }}
+    #       destination: ${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}
+    #       port: 8080
+    #       gitops_namespace: rhdh-gitops
+    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}
 
-    - id: template-orders-backend-gitops
-      name: Fetch Orders Backend Gitops Template
-      action: fetch:template
-      input:
-        url: ./manifest/argocd/orders-config
-        values:
-          component_id: orders-config
-          description: 'Gitops resources for the orders backend'
-          namespace: store-showcase
-          owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-gitops
-          port: 8080
-          gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-gitops
+    # - id: template-orders-backend-gitops
+    #   name: Fetch Orders Backend Gitops Template
+    #   action: fetch:template
+    #   input:
+    #     url: ./manifest/argocd/orders-config
+    #     values:
+    #       component_id: orders-config
+    #       description: 'Gitops resources for the orders backend'
+    #       namespace: store-showcase
+    #       owner: ${{ user.entity.metadata.name }}
+    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+    #       host: ${{ parameters.repo.host }}
+    #       destination: ${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-gitops
+    #       port: 8080
+    #       gitops_namespace: rhdh-gitops
+    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-gitops
     
 
-    - id: publish-frontend
-      name: Publish Frontend
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}"
-        repoVisibility: public
-        defaultBranch: main
-        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
+    # - id: publish-frontend
+    #   name: Publish Frontend
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}"
+    #     repoVisibility: public
+    #     defaultBranch: main
+    #     sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
 
-    - id: publish-frontend-gitops
-      name: Publish Frontend Gitops
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}-gitops"
-        repoVisibility: public
-        defaultBranch: main
-        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
+    # - id: publish-frontend-gitops
+    #   name: Publish Frontend Gitops
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}-gitops"
+    #     repoVisibility: public
+    #     defaultBranch: main
+    #     sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
 
     - id: publish-store-backend
       name: Publish Store Backend
@@ -346,31 +346,31 @@ spec:
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-gitops
 
-    - id: publish-orders-backend
-      name: Publish Orders Backend
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_or_component_id}}"
-        repoVisibility: public
-        defaultBranch: main
-        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}
+    # - id: publish-orders-backend
+    #   name: Publish Orders Backend
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_or_component_id}}"
+    #     repoVisibility: public
+    #     defaultBranch: main
+    #     sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}
 
-    - id: publish-orders-backend-gitops
-      name: Publish Orders Backend Gitops
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_or_component_id}}-gitops"
-        repoVisibility: public
-        defaultBranch: main
-        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-gitops
+    # - id: publish-orders-backend-gitops
+    #   name: Publish Orders Backend Gitops
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_or_component_id}}-gitops"
+    #     repoVisibility: public
+    #     defaultBranch: main
+    #     sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-gitops
 
-    - id: register-frontend
-      name: Register Frontend
-      action: catalog:register
-      owner: ${{ user.entity.metadata.name }}
-      group: ${{ user.entity.metadata.group}}
-      input:
-        catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}/-/blob/main/catalog-info.yaml"
+    # - id: register-frontend
+    #   name: Register Frontend
+    #   action: catalog:register
+    #   owner: ${{ user.entity.metadata.name }}
+    #   group: ${{ user.entity.metadata.group}}
+    #   input:
+    #     catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}/-/blob/main/catalog-info.yaml"
     
     - id: register-store-backend
       name: Register Store Backend
@@ -380,13 +380,13 @@ spec:
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_st_component_id }}/-/blob/main/catalog-info.yaml"
 
-    - id: register-orders-backend
-      name: Register Orders Backend
-      owner: ${{ user.entity.metadata.name }}
-      group: ${{ user.entity.metadata.group}}
-      action: catalog:register
-      input:
-        catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}/-/blob/main/catalog-info.yaml"
+    # - id: register-orders-backend
+    #   name: Register Orders Backend
+    #   owner: ${{ user.entity.metadata.name }}
+    #   group: ${{ user.entity.metadata.group}}
+    #   action: catalog:register
+    #   input:
+    #     catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}/-/blob/main/catalog-info.yaml"
 
     - id: template-gitops-common-config
       name: Generating Deployment for Common Config
@@ -444,32 +444,32 @@ spec:
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-pipeline
 
-    - id: template-store-backend-pipeline
-      name: Generating Deployment for Store Backend Pipeline
-      action: fetch:template
-      input:
-        url: ./skeleton/quarkus-pipeline/
-        copyWithoutTemplating: []
-        values:
-          component_id: store-backend-pipeline
-          description: 'Gitops resources for store backend pipeline'
-          namespace: store-showcase
-          owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{parameters.be_st_component_id}}-pipeline
-          port: 8080
-          gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-pipeline
+    # - id: template-store-backend-pipeline
+    #   name: Generating Deployment for Store Backend Pipeline
+    #   action: fetch:template
+    #   input:
+    #     url: ./skeleton/quarkus-pipeline/
+    #     copyWithoutTemplating: []
+    #     values:
+    #       component_id: store-backend-pipeline
+    #       description: 'Gitops resources for store backend pipeline'
+    #       namespace: store-showcase
+    #       owner: ${{ user.entity.metadata.name }}
+    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+    #       host: ${{ parameters.repo.host }}
+    #       destination: ${{ user.entity.metadata.name }}/${{parameters.be_st_component_id}}-pipeline
+    #       port: 8080
+    #       gitops_namespace: rhdh-gitops
+    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-pipeline
 
-    - id: publish-orders-backend-pipeline
-      name: Publish Orders Backend Pipeline
-      action: publish:gitlab
-      input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_st_component_id}}-pipeline"
-        repoVisibility: public
-        defaultBranch: main
-        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-pipeline
+    # - id: publish-orders-backend-pipeline
+    #   name: Publish Orders Backend Pipeline
+    #   action: publish:gitlab
+    #   input:
+    #     repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.be_st_component_id}}-pipeline"
+    #     repoVisibility: public
+    #     defaultBranch: main
+    #     sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-pipeline
     
 
     - id: create-argocd-resources-infra
