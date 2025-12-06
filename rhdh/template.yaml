@@ -241,73 +241,73 @@ spec:
     #       gitops_namespace: rhdh-gitops
     #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
     
-    - id: template-store-backend
-      name: Fetch Store Backend Template
-      action: fetch:template
-      input:
-        url: ./skeleton/store-backend
-        values:
-          component_id: ${{ parameters.be_st_component_id }}
-          description: ${{ parameters.be_st_description }}
-          namespace: store-showcase
-          owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{ parameters.be_st_component_id }}
-          port: 8080
-          gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}
+    # - id: template-store-backend
+    #   name: Fetch Store Backend Template
+    #   action: fetch:template
+    #   input:
+    #     url: ./skeleton/store-backend
+    #     values:
+    #       component_id: ${{ parameters.be_st_component_id }}
+    #       description: ${{ parameters.be_st_description }}
+    #       namespace: store-showcase
+    #       owner: ${{ user.entity.metadata.name }}
+    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+    #       host: ${{ parameters.repo.host }}
+    #       destination: ${{ user.entity.metadata.name }}/${{ parameters.be_st_component_id }}
+    #       port: 8080
+    #       gitops_namespace: rhdh-gitops
+    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}
 
-    - id: template-store-backend-gitops
-      name: Fetch Store Backend Gitops Template
-      action: fetch:template
-      input:
-        url: ./manifest/argocd/store-config
-        values:
-          component_id: store-config
-          description: 'Gitops resources for the store backend'
-          namespace: store-showcase
-          owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{parameters.be_st_component_id}}-gitops
-          port: 8080
-          gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-gitops
+    # - id: template-store-backend-gitops
+    #   name: Fetch Store Backend Gitops Template
+    #   action: fetch:template
+    #   input:
+    #     url: ./manifest/argocd/store-config
+    #     values:
+    #       component_id: store-config
+    #       description: 'Gitops resources for the store backend'
+    #       namespace: store-showcase
+    #       owner: ${{ user.entity.metadata.name }}
+    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+    #       host: ${{ parameters.repo.host }}
+    #       destination: ${{ user.entity.metadata.name }}/${{parameters.be_st_component_id}}-gitops
+    #       port: 8080
+    #       gitops_namespace: rhdh-gitops
+    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-gitops
     
-    # - id: template-orders-backend
-    #   name: Fetch Orders Backend Template
-    #   action: fetch:template
-    #   input:
-    #     url: ./skeleton/orders-backend
-    #     values:
-    #       component_id: ${{ parameters.be_or_component_id }}
-    #       description: ${{ parameters.be_or_description }}
-    #       namespace: store-showcase
-    #       owner: ${{ user.entity.metadata.name }}
-    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-    #       host: ${{ parameters.repo.host }}
-    #       destination: ${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}
-    #       port: 8080
-    #       gitops_namespace: rhdh-gitops
-    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}
+    - id: template-orders-backend
+      name: Fetch Orders Backend Template
+      action: fetch:template
+      input:
+        url: ./skeleton/orders-backend
+        values:
+          component_id: ${{ parameters.be_or_component_id }}
+          description: ${{ parameters.be_or_description }}
+          namespace: store-showcase
+          owner: ${{ user.entity.metadata.name }}
+          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          host: ${{ parameters.repo.host }}
+          destination: ${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}
+          port: 8080
+          gitops_namespace: rhdh-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}
 
-    # - id: template-orders-backend-gitops
-    #   name: Fetch Orders Backend Gitops Template
-    #   action: fetch:template
-    #   input:
-    #     url: ./manifest/argocd/orders-config
-    #     values:
-    #       component_id: orders-config
-    #       description: 'Gitops resources for the orders backend'
-    #       namespace: store-showcase
-    #       owner: ${{ user.entity.metadata.name }}
-    #       cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-    #       host: ${{ parameters.repo.host }}
-    #       destination: ${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-gitops
-    #       port: 8080
-    #       gitops_namespace: rhdh-gitops
-    #     targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-gitops
+    - id: template-orders-backend-gitops
+      name: Fetch Orders Backend Gitops Template
+      action: fetch:template
+      input:
+        url: ./manifest/argocd/orders-config
+        values:
+          component_id: orders-config
+          description: 'Gitops resources for the orders backend'
+          namespace: store-showcase
+          owner: ${{ user.entity.metadata.name }}
+          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          host: ${{ parameters.repo.host }}
+          destination: ${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-gitops
+          port: 8080
+          gitops_namespace: rhdh-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-gitops
     
 
     # - id: publish-frontend
