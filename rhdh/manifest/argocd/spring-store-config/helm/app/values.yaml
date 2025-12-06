@@ -1,0 +1,57 @@
+# Default values for spring-store
+replicaCount: 1
+
+image:
+  repository: quay.io/mcombi/spring-store
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+route:
+  enabled: true
+  host: ""
+  tls:
+    enabled: false
+    termination: edge
+
+resources: {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+probes:
+  enabled: true
+  readiness:
+    path: /actuator/health/readiness
+    initialDelaySeconds: 10
+    periodSeconds: 10
+  liveness:
+    path: /actuator/health/liveness
+    initialDelaySeconds: 30
+    periodSeconds: 20
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  path: /actuator/prometheus
+
+env: []
+  # - name: SPRING_PROFILES_ACTIVE
+  #   value: "prod"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+

@@ -200,7 +200,7 @@ spec:
         values:
           component_id: ${{ parameters.fe_component_id }}
           description: ${{ parameters.fe_description }}
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -217,7 +217,7 @@ spec:
         values:
           component_id: store-frontend-config
           description: 'Gitops resources for the store frontend'
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -234,7 +234,7 @@ spec:
         values:
           component_id: ${{ parameters.be_st_component_id }}
           description: ${{ parameters.be_st_description }}
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -251,7 +251,7 @@ spec:
         values:
           component_id: store-config
           description: 'Gitops resources for the store backend'
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -268,7 +268,7 @@ spec:
         values:
           component_id: ${{ parameters.be_or_component_id }}
           description: ${{ parameters.be_or_description }}
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -285,7 +285,7 @@ spec:
         values:
           component_id: orders-config
           description: 'Gitops resources for the orders backend'
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -376,7 +376,7 @@ spec:
         values:
           component_id: ${{ parameters.be_or_component_id }}
           description: 'Gitops resources for the common config'
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -405,7 +405,7 @@ spec:
         values:
           component_id: orders-backend-pipeline
           description: 'Gitops resources for the common config'
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -432,7 +432,7 @@ spec:
         values:
           component_id: store-backend-pipeline
           description: 'Gitops resources for store backend pipeline'
-          namespace: store-showcase-dev
+          namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
@@ -459,7 +459,7 @@ spec:
         argoInstance: main
         namespace: rhdh-gitops
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
-        path: 'argocd/'
+        path: '.'
 
   output:
     links:
