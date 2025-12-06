@@ -2,6 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: store-showcase-template
+  namespace: store-showcase
   title: Store Showcase
   description: Create a Store Showcase Application
   tags:

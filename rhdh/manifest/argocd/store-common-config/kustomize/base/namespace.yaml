@@ -1,0 +1,5 @@
+# In your gitops repo
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: store-showcase
