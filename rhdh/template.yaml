@@ -472,7 +472,7 @@ spec:
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.be_st_component_id}}-pipeline
     
 
-    - id: create-argocd-resources
+    - id: create-argocd-resources-infra
       name: Create Argo CD Infra
       action: argocd:create-resources
       input:
@@ -481,7 +481,18 @@ spec:
         namespace: store-showcase
         createNamespace: true
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
-        path: '.'
+        path: '/argocd/'
+
+    - id: create-argocd-resources-orders
+      name: Create Argo CD Infra
+      action: argocd:create-resources
+      input:
+        appName: ${{ user.entity.metadata.name }}-${{parameters.be_or_component_id}}-bootstrap
+        argoInstance: main
+        namespace: store-showcase
+        createNamespace: true
+        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.be_or_component_id}}-gitops.git
+        path: '/argocd/'
 
   output:
     links:

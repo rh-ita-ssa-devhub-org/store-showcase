@@ -2,37 +2,37 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dev1-app-gateway-dev
-  namespace: rhdh-gitops
+  name: ${{ values.owner }}-${{ values.component_id }}-dev
+  namespace: ${{ values.gitops_namespace }}
   labels:
-    rht-gitops.com/rhdh-gitops: dev1-app-gateway
+    rht-gitops.com/${{ values.gitops_namespace }}: ${{ values.owner }}-${{ values.component_id }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
 spec:
-  project: default
+  project: ${{ values.gitops_project }}
   source:
-    repoURL: https://gitlab-gitlab.apps.cluster-vngth.vngth.sandbox1898.opentlc.com/dev1/app-gateway-gitops.git
+    repoURL: ${{ values.source_repository_gitops }}
     targetRevision: HEAD
     path: ./helm/quarkus-template
     helm:
       values: |
-        nameOverride: app-gateway
+        nameOverride: ${{ values.component_id }}
         imagePullSecrets:
-          - name: app-gateway-registry-creds-app
-        user: dev1
+          - name: ${{ values.component_id }}-registry-creds-app
+        user: ${{ values.owner }}
         service:
-          port: 8080
+          port: ${{values.port}}
         image:
-          registry: Quay
-          organization: dev1
-          host: quay.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-          name: app-gateway
-          namespace: dev1-app-gateway-dev
-          tag: latest
-          password: MTEwMjI0
+          registry: ${{values.image_registry}}
+          organization: ${{values.image_organization}}
+          host: ${{ values.image_host }}
+          name: ${{ values.image_name }}
+          namespace: ${{ values.namespace }}
+          tag: ${{ values.image_tag }}
+          password: ${{values.image_password}}
   destination:
     server: https://kubernetes.default.svc
-    namespace: dev1-app-gateway-dev
+    namespace: ${{ values.namespace }}
   ignoreDifferences:
     - group: '*'
       jqPathExpressions:
@@ -48,7 +48,7 @@ spec:
       - ApplyOutOfSyncOnly=true
     managedNamespaceMetadata:
       labels:
-        argocd.argoproj.io/managed-by: rhdh-gitops
+        argocd.argoproj.io/managed-by: ${{ values.gitops_namespace }}
     retry:
       backoff:
         duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
