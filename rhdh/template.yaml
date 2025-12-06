@@ -154,23 +154,19 @@ spec:
             - Quay
       dependencies:
         image_registry:
-                  enum:
-                    - Quay
-                image_host:
-                  title: Image Host
-                  type: string
-                  description: Host for storing image
-                  default: quay.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
-                image_password:
-                  title: Password
-                  type: string
-                  description: Your Quay password
-                  ui:field: Secret
-                image_tag:
-                  title: Image Tag
-                  default: latest
-                  type: string
-                  description: Build Image tag
+                
+              - title: Quay
+                properties:
+                  image_host:
+                    title: Image Host
+                    type: string
+                    description: Host for storing image
+                    default: quay.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+                  image_password:
+                    title: Password
+                    type: string
+                    description: Your Quay password
+                    ui:field: Secret
                 
     - title: Application repository Information
       required:
