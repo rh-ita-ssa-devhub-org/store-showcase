@@ -368,7 +368,7 @@ spec:
       name: Register Frontend
       action: catalog:register
       owner: ${{ user.entity.metadata.name }}
-      group: ${{ user.entity.metadata.name }}
+      group: ${{ user.entity.metadata.group}}
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}/-/blob/main/catalog-info.yaml"
     
@@ -376,14 +376,14 @@ spec:
       name: Register Store Backend
       action: catalog:register
       owner: ${{ user.entity.metadata.name }}
-      group: ${{ user.entity.metadata.name }}
+      group: ${{ user.entity.metadata.group}}
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_st_component_id }}/-/blob/main/catalog-info.yaml"
 
     - id: register-orders-backend
       name: Register Orders Backend
       owner: ${{ user.entity.metadata.name }}
-      group: ${{ user.entity.metadata.name }}
+      group: ${{ user.entity.metadata.group}}
       action: catalog:register
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}/-/blob/main/catalog-info.yaml"
