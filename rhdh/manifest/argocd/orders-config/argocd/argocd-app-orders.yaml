@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${{ values.owner }}-${{ values.be_or_component_id }}
+  name: ${{ values.owner }}-${{ values.component_id }}
   namespace: ${{ values.gitops_namespace }}
   labels:
-    rht-gitops.com/${{ values.gitops_namespace }}: ${{ values.owner }}-${{ values.be_or_component_id }}
+    rht-gitops.com/${{ values.gitops_namespace }}: ${{ values.owner }}-${{ values.component_id }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
 spec:
@@ -16,9 +16,9 @@ spec:
     path: ./helm/quarkus-template
     helm:
       values: |
-        nameOverride: ${{ values.be_or_component_id }}
+        nameOverride: ${{ values.component_id }}
         imagePullSecrets:
-          - name: ${{ values.be_or_component_id }}-registry-creds-app
+          - name: ${{ values.component_id }}-registry-creds-app
         user: ${{ values.owner }}
         service:
           port: ${{values.port}}

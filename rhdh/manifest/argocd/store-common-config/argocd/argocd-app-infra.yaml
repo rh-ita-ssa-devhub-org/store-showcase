@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${{ values.owner }}-store-infra-build
+  name: store-infra-build
   namespace: ${{ values.gitops_namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
