@@ -352,17 +352,23 @@ spec:
     - id: register-frontend
       name: Register Frontend
       action: catalog:register
+      owner: ${{ user.entity.metadata.name }}
+      group: ${{ user.entity.metadata.name }}
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}/-/blob/main/catalog-info.yaml"
     
     - id: register-store-backend
       name: Register Store Backend
       action: catalog:register
+      owner: ${{ user.entity.metadata.name }}
+      group: ${{ user.entity.metadata.name }}
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_st_component_id }}/-/blob/main/catalog-info.yaml"
 
     - id: register-orders-backend
       name: Register Orders Backend
+      owner: ${{ user.entity.metadata.name }}
+      group: ${{ user.entity.metadata.name }}
       action: catalog:register
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.be_or_component_id }}/-/blob/main/catalog-info.yaml"
@@ -457,7 +463,8 @@ spec:
       input:
         appName: ${{ user.entity.metadata.name }}-store-infra-bootstrap
         argoInstance: main
-        namespace: rhdh-gitops
+        namespace: store-showcase
+        createNamespace: true
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
         path: '.'
 
