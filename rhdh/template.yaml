@@ -154,10 +154,6 @@ spec:
             - Quay
       dependencies:
         image_registry:
-          oneOf:
-
-            - properties:
-                image_registry:
                   enum:
                     - Quay
                 image_host:
@@ -175,6 +171,7 @@ spec:
                   default: latest
                   type: string
                   description: Build Image tag
+                
     - title: Application repository Information
       required:
         - repo
