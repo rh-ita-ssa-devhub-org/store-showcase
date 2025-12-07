@@ -90,7 +90,7 @@ spec:
           default: store-frontend
           ui:field: EntityNamePicker
           maxLength: 18
-        umber_of_users:
+        number_of_users:
           title: Number of Users
           type: string
           description: Expected number of users for the application
