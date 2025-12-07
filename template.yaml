@@ -279,6 +279,38 @@ spec:
         description: gitops resources for ${{ parameters.store_be_component_id }}
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}-gitops
 
+    
+
+    - id: template-infrastructure-common-gitops
+      name: Generating Deployment for Common Config
+      action: fetch:template
+      input:
+        url: ./manifest/infrastructure/
+        copyWithoutTemplating: []
+        values:
+          component_id: ${{ parameters.be_or_component_id }}
+          description: 'Gitops resources for the common config'
+          namespace: store-showcase
+          owner: ${{ user.entity.metadata.name }}
+          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          host: ${{ parameters.repo.host }}
+          destination: ${{ user.entity.metadata.name }}/store-infra-gitops
+          source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
+          port: 8080
+          gitops_namespace: rhdh-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-store-infra-gitops
+
+    - id: publish-infragitops
+      name: Publishing to Resource Repository
+      action: publish:gitlab
+      input:
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=store-infra-gitops"
+        repoVisibility: public
+        defaultBranch: main
+        title: gitops resources for infra
+        description: gitops resources for infra
+        sourcePath: ./${{ user.entity.metadata.name }}-store-infra-gitops
+    
     - id: create-argocd-resources-orders-backend
       name: Create Argo CD Resources Orders Backend
       action: argocd:create-resources
@@ -297,6 +329,16 @@ spec:
         argoInstance: main
         namespace: rhdh-gitops
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.store_be_component_id }}-gitops.git
+        path: 'argocd/'
+
+     - id: create-argocd-resources-infra
+      name: Create Argo CD Infra
+      action: argocd:create-resources
+      input:
+        appName: ${{ user.entity.metadata.name }}-store-infra-bootstrap
+        argoInstance: main
+        namespace: rhdh-gitops
+        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
         path: 'argocd/'
 
   output:

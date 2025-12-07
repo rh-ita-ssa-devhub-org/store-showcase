@@ -1,0 +1,14 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "orders-backend-pipeline.labels" . | nindent 4 }}
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - name: {{ include "orders-backend-pipeline.name" . }}-trigger
+      bindings:
+        - ref: {{ include "orders-backend-pipeline.name" . }}-commit-binding
+      template:
+        ref: {{ include "orders-backend-pipeline.name" . }}-build
