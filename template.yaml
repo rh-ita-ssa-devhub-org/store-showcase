@@ -141,7 +141,7 @@ spec:
 
   steps:
     - id: template-orders-backend
-      name: Fetch Skeleton + Template
+      name: Fetch Orders Backend 
       action: fetch:template
       input:
         url: ./skeleton/orders-backend
@@ -160,7 +160,7 @@ spec:
           gitops_namespace: rhdh-gitops
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.orders_be_component_id}}
     - id: template-store-backend
-      name: Fetch Skeleton + Template
+      name: Fetch Store Backend
       action: fetch:template
       input:
         url: ./skeleton/store-backend
@@ -285,7 +285,7 @@ spec:
       name: Generating Deployment for Common Config
       action: fetch:template
       input:
-        url: ./manifest/infrastructure/
+        url: ./manifests/infrastructure/
         copyWithoutTemplating: []
         values:
           component_id: ${{ parameters.be_or_component_id }}
@@ -294,22 +294,22 @@ spec:
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/store-infra-gitops
-          source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
+          destination: ${{ user.entity.metadata.name }}/showcase-infrastructure-gitops
+          source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/showcase-infrastructure-gitops.git
           port: 8080
           gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-store-infra-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-showcase-infrastructure-gitops
 
     - id: publish-infragitops
       name: Publishing to Resource Repository
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=store-infra-gitops"
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=showcase-infrastructure-gitops"
         repoVisibility: public
         defaultBranch: main
         title: gitops resources for infra
         description: gitops resources for infra
-        sourcePath: ./${{ user.entity.metadata.name }}-store-infra-gitops
+        sourcePath: ./${{ user.entity.metadata.name }}-showcase-infrastructure-gitops
     
     - id: create-argocd-resources-orders-backend
       name: Create Argo CD Resources Orders Backend
@@ -330,15 +330,15 @@ spec:
         namespace: rhdh-gitops
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.store_be_component_id }}-gitops.git
         path: 'argocd/'
-        
-    - id: create-argocd-resources-infra
+
+    - id: create-argocd-resources-showcase-infrastructure
       name: Create Argo CD Infra
       action: argocd:create-resources
       input:
-        appName: ${{ user.entity.metadata.name }}-store-infra-bootstrap
+        appName: ${{ user.entity.metadata.name }}-showcase-infrastructure-bootstrap
         argoInstance: main
         namespace: rhdh-gitops
-        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/store-infra-gitops.git
+        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/showcase-infrastructure-gitops.git
         path: 'argocd/'
 
   output:
