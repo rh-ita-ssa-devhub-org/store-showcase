@@ -4,36 +4,31 @@ kind: Kafka
 metadata:
   name: {{ .Values.kafka.clusterName }}
   namespace: {{ .Values.namespace }}
+  annotations:
+    strimzi.io/node-pools: enabled
+    strimzi.io/kraft: enabled
   labels:
     {{- include "store-common-config.labels" . | nindent 4 }}
 spec:
-  entityOperator:
-    topicOperator: {}
-    userOperator: {}
   kafka:
     config:
-      default.replication.factor: 3
-      inter.broker.protocol.version: '3.3'
-      min.insync.replicas: 2
       offsets.topic.replication.factor: 3
-      transaction.state.log.min.isr: 2
       transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      default.replication.factor: 3
+      min.insync.replicas: 2
     listeners:
       - name: plain
         port: 9092
-        tls: false
         type: internal
+        tls: false
       - name: tls
         port: 9093
-        tls: true
         type: internal
-    replicas: {{ .Values.kafka.replicas }}
-    storage:
-      type: ephemeral
-    version: {{ .Values.kafka.version }}
-  zookeeper:
-    replicas: {{ .Values.kafka.replicas }}
-    storage:
-      type: ephemeral
+        tls: true
+    version: 4.0.0
+    metadataVersion: 4.0
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
 {{- end }}
-
