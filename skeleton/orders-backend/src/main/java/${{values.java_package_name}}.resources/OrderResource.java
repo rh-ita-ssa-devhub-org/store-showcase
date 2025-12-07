@@ -61,11 +61,5 @@ public class OrderResource {
         registry.counter("orders_processed_request_total").increment();
         return Response.accepted().build();
     }
-
-
-
-
-
-
 }
 

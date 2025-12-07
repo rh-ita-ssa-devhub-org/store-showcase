@@ -57,14 +57,14 @@ public class OrderResource {
     @Operation(summary = "List of orders", operationId = "orderList")
 
     @GET
-    public List<OrderEntity> getAllOrders(){
+    public List<OrderEntity> getAllOrders() {
 
         Log.info("Order List required");
         registry.counter("orders_list_request_total").increment();
         return OrderEntity.findAllOrderEntity();
 
     }
-
+}
 //   @DELETE
   /*  @Operation(summary = "Save an order")
     @APIResponse(
