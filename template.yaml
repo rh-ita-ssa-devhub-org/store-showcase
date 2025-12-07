@@ -198,17 +198,15 @@ spec:
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}
 
     - id: register-orders-backend
-      name: Register
+      name: Register Orders Backend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps.publish-orders-backend.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.component_id }}/-/blob/main/catalog-info.yaml"
     - id: register-store-backend
-      name: Register
+      name: Register Store Backend
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps.publish-store-backend.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.store_be_component_id }}/-/blob/main/catalog-info.yaml"
 
     - id: template-orders-backend-gitops-deployment
       name: Generating Deployment Resources
@@ -243,7 +241,7 @@ spec:
         values:
           component_id: ${{ parameters.store_be_component_id }}
           source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.store_be_component_id}}-gitops.git
-          source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.cstore_be_omponent_id}}.git
+          source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.cstore_be_component_id}}.git
           owner: ${{ user.entity.metadata.name }}
           namespace: ${{ user.entity.metadata.name }}-${{ parameters.store_be_component_id }}-dev
           image_registry: ${{ parameters.image_registry }}
