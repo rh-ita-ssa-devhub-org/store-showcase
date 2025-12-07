@@ -1,7 +1,7 @@
 package ${{values.java_package_name}};
 
 import ${{values.java_package_name}}.model.Order;
-import ${{values.java_package_name}}.OrderEntity;
+import ${{values.java_package_name}}.model.OrderEntity;
 import io.smallrye.reactive.messaging.kafka.Record;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
