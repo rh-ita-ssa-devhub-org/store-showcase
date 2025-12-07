@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Check https://www.jetbrains.com/help/idea/managing-plugins.html#required-plugins 
+for further documentation of the externalDependencies.xml in IntelliJ 
+-->
+<project version="4">
+  <component name="ExternalDependencies">
+    <plugin id="org.jetbrains.plugins.yaml" />
+    <plugin id="com.redhat.devtools.intellij.quarkus" />
+    <plugin id="com.redhat.devtools.intellij.openshift" />
+    <plugin id="org.jboss.tools.intellij.analytics" />
+  </component>
+</project>
