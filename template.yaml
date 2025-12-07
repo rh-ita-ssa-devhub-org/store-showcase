@@ -15,32 +15,32 @@ spec:
   parameters:
     - title: Provide Information for Orders Backend Application
       required:
-        - component_id
-        - java_package_name
+        - orders_be_component_id
+        - orders_be_java_package_name
       properties:
-        component_id:
+        orders_be_component_id:
           title: Name
           type: string
           description: Unique name of the component
           default: my-quarkus-app
           ui:field: EntityNamePicker
           maxLength: 18
-        group_id:
+        orders_be_group_id:
           title: Group Id
           type: string
           default: com.redhat.rhdh
           description: Maven Group Id
-        artifact_id:
+        orders_be_artifact_id:
           title: Artifact Id
           type: string
           default: quarkus-app
           description: Maven Artifact Id
-        java_package_name:
+        orders_be_java_package_name:
           title: Java Package Name
           default: com.redhat.rhdh
           type: string
           description: Name for the java package. eg (com.redhat.blah)
-        description:
+        orders_be_description:
           title: Description
           type: string
           description: Help others understand what this website is for.
@@ -146,19 +146,19 @@ spec:
       input:
         url: ./skeleton/orders-backend
         values:
-          component_id: ${{ parameters.component_id }}
-          description: ${{ parameters.description }}
-          namespace: ${{ parameters.component_id }}-dev
-          group_id: ${{ parameters.group_id }}
-          artifact_id: ${{ parameters.artifact_id }}
-          java_package_name: ${{ parameters.java_package_name }}
+          component_id: ${{ parameters.orders_be_component_id }}
+          description: ${{ parameters.orders_be_description }}
+          namespace: ${{ parameters.orders_be_component_id }}-dev
+          group_id: ${{ parameters.orders_be_group_id }}
+          artifact_id: ${{ parameters.orders_be_artifact_id }}
+          java_package_name: ${{ parameters.orders_be_java_package_name }}
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           host: ${{ parameters.repo.host }}
-          destination: ${{ user.entity.metadata.name }}/${{ parameters.component_id }}
+          destination: ${{ user.entity.metadata.name }}/${{ parameters.orders_be_component_id }}
           port: 8080
           gitops_namespace: rhdh-gitops
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.component_id}}
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.orders_be_component_id}}
     - id: template-store-backend
       name: Fetch Skeleton + Template
       action: fetch:template
@@ -183,10 +183,10 @@ spec:
       name: Publish Orders Backend
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}"
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.orders_be_component_id}}"
         repoVisibility: public
         defaultBranch: main
-        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.component_id}}
+        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.orders_be_component_id}}
 
     - id: publish-store-backend
       name: Publish Store Backend
@@ -201,7 +201,7 @@ spec:
       name: Register Orders Backend
       action: catalog:register
       input:
-        catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.component_id }}/-/blob/main/catalog-info.yaml"
+        catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.orders_be_component_id }}/-/blob/main/catalog-info.yaml"
     - id: register-store-backend
       name: Register Store Backend
       action: catalog:register
@@ -216,22 +216,22 @@ spec:
         copyWithoutTemplating: []
         values:
           component_id: ${{ parameters.component_id }}
-          source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}-gitops.git
-          source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.component_id}}.git
+          source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.orders_be_component_id}}-gitops.git
+          source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.orders_be_component_id}}.git
           owner: ${{ user.entity.metadata.name }}
-          namespace: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-dev
+          namespace: ${{ user.entity.metadata.name }}-${{ parameters.orders_be_component_id }}-dev
           image_registry: ${{ parameters.image_registry }}
           image_host: ${{ parameters.image_host }}
           image_organization: ${{ user.entity.metadata.name }}
           image_password: ${{ secrets.image_password }}
-          image_name: ${{ parameters.component_id }}
+          image_name: ${{ parameters.orders_be_component_id }}
           image_tag: ${{ parameters.image_tag }}
           gitops_namespace: rhdh-gitops
           gitops_project: default
           port: 8080
           cluster_subdomain: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           repository_host: ${{ parameters.repo.host }}
-        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.component_id}}-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.orders_be_component_id}}-gitops
     - id: template-store-backend-gitops-deployment
       name: Generating Deployment Resources
       action: fetch:template
@@ -261,12 +261,12 @@ spec:
       name: Publishing to Resource Repository Orders Backend
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.component_id}}-gitops"
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.orders_be_component_id}}-gitops"
         repoVisibility: public
         defaultBranch: main
-        title: gitops resources for ${{ parameters.component_id }}
-        description: gitops resources for ${{ parameters.component_id }}
-        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.component_id}}-gitops
+        title: gitops resources for ${{ parameters.orders_be_component_id }}
+        description: gitops resources for ${{ parameters.orders_be_component_id }}
+        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.orders_be_component_id}}-gitops
 
     - id: publish-gitops-store-backend
       name: Publishing to Resource Repository Store Backend
@@ -275,8 +275,8 @@ spec:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.store_be_component_id}}-gitops"
         repoVisibility: public
         defaultBranch: main
-        title: gitops resources for ${{ parameters.component_id }}
-        description: gitops resources for ${{ parameters.component_id }}
+        title: gitops resources for ${{ parameters.store_be_component_id }}
+        description: gitops resources for ${{ parameters.store_be_component_id }}
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}-gitops
 
     - id: create-argocd-resources-orders-backend
@@ -286,7 +286,7 @@ spec:
         appName: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-bootstrap
         argoInstance: main
         namespace: rhdh-gitops
-        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.component_id }}-gitops.git
+        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.orders_be_component_id }}-gitops.git
         path: 'argocd/'
 
     - id: create-argocd-resources-store-backend
