@@ -215,7 +215,7 @@ spec:
         url: ./manifests/orders-backend
         copyWithoutTemplating: []
         values:
-          component_id: ${{ parameters.component_id }}
+          component_id: ${{ parameters.orders_be_component_id }}
           source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.orders_be_component_id}}-gitops.git
           source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.orders_be_component_id}}.git
           owner: ${{ user.entity.metadata.name }}
@@ -315,7 +315,7 @@ spec:
       name: Create Argo CD Resources Orders Backend
       action: argocd:create-resources
       input:
-        appName: ${{ user.entity.metadata.name }}-${{ parameters.component_id }}-bootstrap
+        appName: ${{ user.entity.metadata.name }}-${{ parameters.orders_be_component_id }}-bootstrap
         argoInstance: main
         namespace: rhdh-gitops
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.orders_be_component_id }}-gitops.git
