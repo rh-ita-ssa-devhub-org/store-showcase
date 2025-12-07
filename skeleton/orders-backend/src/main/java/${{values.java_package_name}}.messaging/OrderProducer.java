@@ -2,7 +2,7 @@
 package ${{values.java_package_name}}.messaging;
 
 
-import com.redhat.demo.mcombi.model.Order;
+import ${{values.java_package_name}}.model.Order;
 import io.smallrye.reactive.messaging.kafka.Record;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;

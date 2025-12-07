@@ -4,8 +4,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import com.redhat.demo.mcombi.messaging.OrderProducer;
-import com.redhat.demo.mcombi.model.Order;
+import ${{values.java_package_name}}.messaging.OrderProducer;
+import ${{values.java_package_name}}.model.Order;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.quarkus.logging.Log;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
