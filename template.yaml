@@ -112,7 +112,7 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: ./skeleton
+        url: ./skeleton/orders-backend
         values:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
@@ -148,7 +148,7 @@ spec:
       name: Generating Deployment Resources
       action: fetch:template
       input:
-        url: ./manifests
+        url: ./manifests/orders-backend
         copyWithoutTemplating: []
         values:
           component_id: ${{ parameters.component_id }}
