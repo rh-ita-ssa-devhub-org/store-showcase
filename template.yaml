@@ -241,7 +241,7 @@ spec:
         values:
           component_id: ${{ parameters.store_be_component_id }}
           source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.store_be_component_id}}-gitops.git
-          source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.cstore_be_component_id}}.git
+          source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.store_be_component_id}}.git
           owner: ${{ user.entity.metadata.name }}
           namespace: ${{ user.entity.metadata.name }}-${{ parameters.store_be_component_id }}-dev
           image_registry: ${{ parameters.image_registry }}
