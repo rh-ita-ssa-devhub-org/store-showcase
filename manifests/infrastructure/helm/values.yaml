@@ -1,0 +1,24 @@
+# Default values for store-common-config
+
+namespace: store-showcase
+
+postgresql:
+  enabled: true
+  name: postgresql
+  database: ordersdb
+  user: ordersuser
+  password: orderspassword
+
+kafka:
+  enabled: true
+  clusterName: orders-cluster
+  replicas: 3
+  version: "3.5.0"
+
+kafkaTopic:
+  enabled: true
+  name: orders-out
+  partitions: 10
+  replicas: 3
+
+

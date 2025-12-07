@@ -1,0 +1,14 @@
+apiVersion: v2
+name: store-common-config
+description: A Helm chart for Store Common Infrastructure (PostgreSQL, Kafka, MongoDB)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - infrastructure
+  - postgresql
+  - kafka
+  - mongodb
+maintainers:
+  - name: Store Showcase Team
+

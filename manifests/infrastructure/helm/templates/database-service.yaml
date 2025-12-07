@@ -1,0 +1,27 @@
+{{- if .Values.postgresql.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.postgresql.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    template: postgresql-ephemeral-template
+    {{- include "store-common-config.labels" . | nindent 4 }}
+  annotations:
+    template.openshift.io/expose-uri: 'postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}'
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: postgresql
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    name: {{ .Values.postgresql.name }}
+{{- end }}
+
