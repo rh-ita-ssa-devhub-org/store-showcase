@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
-public class OrderRescourceTest {
+public class OrderResourceTest {
     @Test
     public void testOrderEndpoint() {
         given()
