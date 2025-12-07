@@ -77,6 +77,67 @@ spec:
           type: string
           description: Help others understand what this website is for.
           default: The Store Backend Application for the Store Showcase
+
+    - title:  Information for FrontEnd Application
+      required:
+        - fe_component_id
+        - number_of_users
+      properties:
+        fe_component_id:
+          title: Name
+          type: string
+          description: Unique name of the component
+          default: store-frontend
+          ui:field: EntityNamePicker
+          maxLength: 18
+        umber_of_users:
+          title: Number of Users
+          type: string
+          description: Expected number of users for the application
+          enum:
+            - 10-100
+            - 100-1000
+            - 1000-10000
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
+          default: The frontend application for the store
+    - title: Provide Information for The Database
+      required:
+        - db_username
+        - db_name
+      properties:
+        db_username:
+          title: Database Username
+          type: string
+          description: Unique name of the component
+          default: ordersuser
+          ui:field: EntityNamePicker
+          maxLength: 18
+        db_name:
+          title: Database Name
+          type: string
+          description: Unique name of the component
+          default: ordersdb
+          ui:field: EntityNamePicker
+          maxLength: 18
+    - title: Provide Information for Backend kafka Configuration
+      required:
+        - kafka_topic_name
+        - kafka_cluster_name
+      properties:
+        kafka_topic_name:
+          title: Topic Name
+          type: string
+          default: orders-out
+          description: Kafka Topic Name to create
+        kafka_cluster_name:
+          title: Topic Cluster Name
+          type: string
+          default: orders-cluster
+          description: Name of the Kafka Cluster to create the topic in
+
     - title: Provide Image Registry Information
       required:
         - image_registry
@@ -179,6 +240,23 @@ spec:
           gitops_namespace: rhdh-gitops
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}
 
+    - id: template-store-frontend
+      name: Fetch Store Frontend
+      action: fetch:template
+      input:
+        url: ./skeleton/store-frontend
+        values:
+          component_id: ${{ parameters.fe_component_id }}
+          description: ${{ parameters.fe_description }}
+          namespace: ${{ parameters.fe_component_id }}-dev
+          owner: ${{ user.entity.metadata.name }}
+          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          host: ${{ parameters.repo.host }}
+          destination: ${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}
+          port: 8080
+          gitops_namespace: rhdh-gitops
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
+
     - id: publish-orders-backend
       name: Publish Orders Backend
       action: publish:gitlab
@@ -197,6 +275,15 @@ spec:
         defaultBranch: main
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}
 
+    - id: publish-store-fronted
+      name: Publish Store Frontend
+      action: publish:gitlab
+      input:
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}"
+        repoVisibility: public
+        defaultBranch: main
+        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}
+
     - id: register-orders-backend
       name: Register Orders Backend
       action: catalog:register
@@ -207,6 +294,13 @@ spec:
       action: catalog:register
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.store_be_component_id }}/-/blob/main/catalog-info.yaml"
+
+    - id: register-store-frontend
+      name: Register Store Frontend
+      action: catalog:register
+      input:
+        catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}/-/blob/main/catalog-info.yaml"
+
 
     - id: template-orders-backend-gitops-deployment
       name: Generating Deployment Resources
