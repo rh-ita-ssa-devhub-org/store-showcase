@@ -1,5 +1,5 @@
 
-package ${{values.java_package_name}}.messaging;
+package ${{values.java_package_name}};
 
 import ${{values.java_package_name}}.model.Order;
 import io.quarkus.test.junit.QuarkusTest;
