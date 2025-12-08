@@ -366,7 +366,7 @@ spec:
           image_host: ${{ parameters.image_host }}
           image_organization: ${{ user.entity.metadata.name }}
           image_password: ${{ secrets.image_password }}
-          image_name: ${{ parameters.store_be_component_id }}
+          image_name: ${{ parameters.fe_component_id }}
           image_tag: ${{ parameters.image_tag }}
           gitops_namespace: rhdh-gitops
           gitops_project: default
@@ -401,7 +401,7 @@ spec:
       name: Publishing to Resource Repository Store Frontend
       action: publish:gitlab
       input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.store_be_component_id}}-gitops"
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}-gitops"
         repoVisibility: public
         defaultBranch: main
         title: gitops resources for ${{ parameters.fe_component_id }}
