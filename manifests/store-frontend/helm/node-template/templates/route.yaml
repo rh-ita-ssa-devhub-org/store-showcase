@@ -1,0 +1,23 @@
+{{- with .Values.route }}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    {{- include "node-template.labels" $ | nindent 4 }}
+  name: {{ include "node-template.name" $ }}
+spec:
+  {{- if .host }}
+  host: {{ .host }}
+  {{- end }}
+  {{- if .path }}
+  path: {{ .path }}
+  {{- end }}
+  port:
+    targetPort: {{ $.Values.service.port }}
+  to:
+    kind: Service
+    name: {{ include "node-template.name" $ }}
+  tls:
+    termination: edge
+  wildcardPolicy: None
+{{- end }}

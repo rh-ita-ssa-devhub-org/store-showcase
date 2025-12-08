@@ -1,0 +1,20 @@
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: webhook-{{ include "node-build.name" . }}-el
+  labels:
+    app.kubernetes.io/managed-by: EventListener
+    app.kubernetes.io/part-of: Triggers
+    eventlistener: {{ include "node-build.name" . }}-el
+    {{- include "node-build.labels" . | nindent 4 }}
+spec:
+  to:
+    kind: Service
+    name: el-{{ include "node-build.name" . }}-el
+    weight: 100
+  port:
+    targetPort: http-listener
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
