@@ -40,6 +40,14 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/build/config.js
+              subPath: config.js
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "node-template.name" . }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

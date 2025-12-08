@@ -4,6 +4,9 @@
 
 replicaCount: 1
 
+# API URL for the React app
+apiUrl: "https://store-backend-dev1-store-backend-dev.apps.cluster-vngth.vngth.sandbox1898.opentlc.com/order"
+
 image:
   pullPolicy: Always
   registry: 
@@ -45,10 +48,10 @@ route:
   host: ""
   path: /
 
-# Node.js/nginx health check endpoint
+# Health check - using root path since serve doesn't have /health
 livenessProbe:
   httpGet:
-    path: /health
+    path: /
     port: http
   initialDelaySeconds: 10
   periodSeconds: 10
@@ -56,7 +59,7 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /health
+    path: /
     port: http
   initialDelaySeconds: 5
   periodSeconds: 10
