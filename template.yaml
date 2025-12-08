@@ -458,6 +458,16 @@ spec:
         repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.store_be_component_id }}-gitops.git
         path: 'argocd/'
 
+    - id: create-argocd-resources-store-frontend
+      name: Create Argo CD Resources Store Fronted
+      action: argocd:create-resources
+      input:
+        appName: ${{ user.entity.metadata.name }}-${{ parameters.fe_component_id }}-bootstrap
+        argoInstance: main
+        namespace: rhdh-gitops
+        repoUrl: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}-gitops.git
+        path: 'argocd/'
+
     - id: create-argocd-resources-showcase-infrastructure
       name: Create Argo CD Infra
       action: argocd:create-resources
