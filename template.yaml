@@ -18,11 +18,16 @@ spec:
         - orders_be_component_id
         - orders_be_java_package_name
       properties:
+        orders_be_description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
+          default: The Orders Backend Application for the Store Showcase
         orders_be_component_id:
           title: Name
           type: string
           description: Unique name of the component
-          default: my-quarkus-app
+          default: orders-backend
           ui:field: EntityNamePicker
           maxLength: 18
         orders_be_group_id:
@@ -33,28 +38,28 @@ spec:
         orders_be_artifact_id:
           title: Artifact Id
           type: string
-          default: quarkus-app
+          default: orders-backend
           description: Maven Artifact Id
         orders_be_java_package_name:
           title: Java Package Name
           default: com.redhat.rhdh
           type: string
           description: Name for the java package. eg (com.redhat.blah)
-        orders_be_description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
-          default: The Orders Backend Application for the Store Showcase
     - title: Provide Information for Store Backend Application
       required:
         - store_be_component_id
         - store_be_java_package_name
       properties:
+        store_be_description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
+          default: The Store Backend Application for the Store Showcase
         store_be_component_id:
           title: Name
           type: string
           description: Unique name of the component
-          default: my-quarkus-app
+          default: store-backend
           ui:field: EntityNamePicker
           maxLength: 18
         store_be_group_id:
@@ -65,24 +70,23 @@ spec:
         store_be_artifact_id:
           title: Artifact Id
           type: string
-          default: quarkus-app
+          default: store-backend
           description: Maven Artifact Id
         store_be_java_package_name:
           title: Java Package Name
           default: com.redhat.rhdh
           type: string
           description: Name for the java package. eg (com.redhat.blah)
-        store_be_description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
-          default: The Store Backend Application for the Store Showcase
-
     - title:  Information for FrontEnd Application
       required:
         - fe_component_id
         - number_of_users
       properties:
+        fe_description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
+          default: The frontend application for the store
         fe_component_id:
           title: Name
           type: string
@@ -98,11 +102,6 @@ spec:
             - 10-100
             - 100-1000
             - 1000-10000
-        description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
-          default: The frontend application for the store
     - title: Provide Information for The Database
       required:
         - db_username
