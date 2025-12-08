@@ -350,6 +350,30 @@ spec:
           cluster_subdomain: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
           repository_host: ${{ parameters.repo.host }}
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}-gitops
+    - id: template-store-frontend-gitops-deployment
+      name: Generating Deployment Resources for Store Frontend
+      action: fetch:template
+      input:
+        url: ./manifests/store-frontend
+        copyWithoutTemplating: [ ]
+        values:
+          component_id: ${{ parameters.fe_component_id }}
+          source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.fe_component_id}}-gitops.git
+          source_repository: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{parameters.fe_component_id}}.git
+          owner: ${{ user.entity.metadata.name }}
+          namespace: ${{ user.entity.metadata.name }}-${{ parameters.fe_component_id }}-dev
+          image_registry: ${{ parameters.image_registry }}
+          image_host: ${{ parameters.image_host }}
+          image_organization: ${{ user.entity.metadata.name }}
+          image_password: ${{ secrets.image_password }}
+          image_name: ${{ parameters.store_be_component_id }}
+          image_tag: ${{ parameters.image_tag }}
+          gitops_namespace: rhdh-gitops
+          gitops_project: default
+          port: 8080
+          cluster_subdomain: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          repository_host: ${{ parameters.repo.host }}
+        targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
 
     - id: publish-gitops-orders-backend
       name: Publishing to Resource Repository Orders Backend
@@ -373,7 +397,16 @@ spec:
         description: gitops resources for ${{ parameters.store_be_component_id }}
         sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}-gitops
 
-    
+    - id: publish-gitops-store-frontend
+      name: Publishing to Resource Repository Store Frontend
+      action: publish:gitlab
+      input:
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.store_be_component_id}}-gitops"
+        repoVisibility: public
+        defaultBranch: main
+        title: gitops resources for ${{ parameters.fe_component_id }}
+        description: gitops resources for ${{ parameters.fe_component_id }}
+        sourcePath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
 
     - id: template-infrastructure-common-gitops
       name: Generating Deployment for Common Config
