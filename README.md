@@ -6,13 +6,13 @@ A cloud-native microservices demo application designed for **Red Hat Developer H
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              Store Showcase                                  │
+│                              Store Showcase                                 │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│   ┌──────────────┐      ┌──────────────┐      ┌──────────────────┐         │
-│   │   Frontend   │─────▶│Orders Backend│─────▶│   Store Backend  │         │
-│   │   (React)    │      │  (Quarkus)   │      │    (Quarkus)     │         │
-│   └──────────────┘      └──────┬───────┘      └────────┬─────────┘         │
+│   ┌──────────────┐      ┌──────────────┐      ┌──────────────────┐          │
+│   │   Frontend   │─────▶│Orders Backend│─────▶│   Store Backend  │          │
+│   │   (React)    │      │  (Quarkus)   │      │    (Quarkus)     │          │
+│   └──────────────┘      └──────┬───────┘      └────────┬─────────┘          │
 │                                │                       │                    │
 │                                │    Kafka Topic        │                    │
 │                                │   (orders-out)        │                    │

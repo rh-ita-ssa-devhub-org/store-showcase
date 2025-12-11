@@ -78,30 +78,44 @@ spec:
           type: string
           description: Name for the java package. eg (com.redhat.blah)
     - title:  Information for FrontEnd Application
-      required:
-        - fe_component_id
-        - number_of_users
       properties:
-        fe_description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
-          default: The frontend application for the store
-        fe_component_id:
-          title: Name
-          type: string
-          description: Unique name of the component
-          default: store-frontend
-          ui:field: EntityNamePicker
-          maxLength: 18
-        number_of_users:
-          title: Number of Users
-          type: string
-          description: Expected number of users for the application
-          enum:
-            - 10-100
-            - 100-1000
-            - 1000-10000
+        include_frontend:
+          title: Include Frontend Application
+          type: boolean
+          default: true
+          description: Check this to include the frontend application in the deployment
+      dependencies:
+        include_frontend:
+          oneOf:
+            - properties:
+                include_frontend:
+                  const: false
+            - properties:
+                include_frontend:
+                  const: true
+                fe_description:
+                  title: Description
+                  type: string
+                  description: Help others understand what this website is for.
+                  default: The frontend application for the store
+                fe_component_id:
+                  title: Name
+                  type: string
+                  description: Unique name of the component
+                  default: store-frontend
+                  ui:field: EntityNamePicker
+                  maxLength: 18
+                number_of_users:
+                  title: Number of Users
+                  type: string
+                  description: Expected number of users for the application
+                  enum:
+                    - 10-100
+                    - 100-1000
+                    - 1000-10000
+              required:
+                - fe_component_id
+                - number_of_users
     - title: Provide Information for The Database
       required:
         - db_username
@@ -241,6 +255,7 @@ spec:
 
     - id: template-store-frontend
       name: Fetch Store Frontend
+      if: ${{ parameters.include_frontend === true }}
       action: fetch:template
       input:
         url: ./skeleton/store-frontend
@@ -276,6 +291,7 @@ spec:
 
     - id: publish-store-fronted
       name: Publish Store Frontend
+      if: ${{ parameters.include_frontend === true }}
       action: publish:gitlab
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}"
@@ -296,6 +312,7 @@ spec:
 
     - id: register-store-frontend
       name: Register Store Frontend
+      if: ${{ parameters.include_frontend === true }}
       action: catalog:register
       input:
         catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}/-/blob/main/catalog-info.yaml"
@@ -351,6 +368,7 @@ spec:
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}-gitops
     - id: template-store-frontend-gitops-deployment
       name: Generating Deployment Resources for Store Frontend
+      if: ${{ parameters.include_frontend === true }}
       action: fetch:template
       input:
         url: ./manifests/store-frontend
@@ -398,6 +416,7 @@ spec:
 
     - id: publish-gitops-store-frontend
       name: Publishing to Resource Repository Store Frontend
+      if: ${{ parameters.include_frontend === true }}
       action: publish:gitlab
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=${{parameters.fe_component_id}}-gitops"
@@ -459,6 +478,7 @@ spec:
 
     - id: create-argocd-resources-store-frontend
       name: Create Argo CD Resources Store Fronted
+      if: ${{ parameters.include_frontend === true }}
       action: argocd:create-resources
       input:
         appName: ${{ user.entity.metadata.name }}-${{ parameters.fe_component_id }}-bootstrap
