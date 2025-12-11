@@ -452,8 +452,8 @@ spec:
         url: ./manifests/infrastructure/
         copyWithoutTemplating: []
         values:
-          component_id: ${{ parameters.be_or_component_id }}
-          description: 'Gitops resources for the common config'
+          component_id: showcase-infrastructure-gitops
+          description: 'Gitops resources for the infrastructure'
           namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
           cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
@@ -465,7 +465,7 @@ spec:
         targetPath: ./${{ user.entity.metadata.name }}-showcase-infrastructure-gitops
 
     - id: publish-infragitops
-      name: Publishing to Resource Repository
+      name: Publishing to Infrastructure Repository
       action: publish:gitlab
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ user.entity.metadata.name }}&repo=showcase-infrastructure-gitops"
