@@ -118,23 +118,42 @@ spec:
                 - number_of_users
     - title: Provide Information for The Database
       required:
-        - db_username
-        - db_name
+        - db_type
       properties:
-        db_username:
-          title: Database Username
+        db_type:
+          title: Database Type
           type: string
-          description: Unique name of the component
-          default: ordersuser
-          ui:field: EntityNamePicker
-          maxLength: 18
-        db_name:
-          title: Database Name
-          type: string
-          description: Unique name of the component
-          default: ordersdb
-          ui:field: EntityNamePicker
-          maxLength: 18
+          description: Select the database type
+          default: PostgreSQL
+          enum:
+            - PostgreSQL
+            - MongoDB
+      dependencies:
+        db_type:
+          oneOf:
+            - properties:
+                db_type:
+                  const: MongoDB
+            - properties:
+                db_type:
+                  const: PostgreSQL
+                db_username:
+                  title: Database Username
+                  type: string
+                  description: Unique name of the component
+                  default: ordersuser
+                  ui:field: EntityNamePicker
+                  maxLength: 18
+                db_name:
+                  title: Database Name
+                  type: string
+                  description: Unique name of the component
+                  default: ordersdb
+                  ui:field: EntityNamePicker
+                  maxLength: 18
+              required:
+                - db_username
+                - db_name
     - title: Provide Information for Backend kafka Configuration
       required:
         - kafka_topic_name
