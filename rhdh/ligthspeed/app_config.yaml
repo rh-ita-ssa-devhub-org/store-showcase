@@ -1,0 +1,216 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backstage-developer-hub-app-config
+  namespace: backstage
+
+  labels:
+    rht-gitops.com/openshift-gitops: backstage
+
+data:
+  app-config.yaml: |
+    app:
+      baseUrl: https://backstage-developer-hub-backstage.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+    argocd:
+      appLocatorMethods:
+        - instances:
+            - name: main
+              password: MzI0NzY5
+              url: https://argocd-server-janus-argocd.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+              username: admin
+          type: config
+    auth:
+      environment: production
+      providers:
+        oauth2Proxy: {}
+    backend:
+      auth:
+        externalAccess:
+          - options:
+              subject: mcp-clients
+              token: IodJaHuy36KjntFABXvhcqwRiI6yF6RY
+            type: static
+      actions:
+        pluginSources:
+          - software-catalog-mcp-tool
+          - techdocs-mcp-tool
+      baseUrl: https://backstage-developer-hub-backstage.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+      cors:
+        credentials: true
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+        origin: https://backstage-developer-hub-backstage.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+      csp:
+        connect-src:
+          - '''self'''
+          - 'http:'
+          - 'https:'
+          - 'data:'
+        img-src:
+          - '''self'''
+          - 'data:'
+        script-src:
+          - '''self'''
+          - '''unsafe-inline'''
+          - '''unsafe-eval'''
+        script-src-elem:
+          - '''self'''
+          - '''unsafe-inline'''
+          - '''unsafe-eval'''
+      database:
+        client: pg
+        connection:
+          host: ${POSTGRES_HOST}
+          password: ${POSTGRES_ADMIN_PASSWORD}
+          port: ${POSTGRES_PORT}
+          user: ${POSTGRES_USER}
+      listen:
+        host: 0.0.0.0
+        port: 7007
+      reading:
+        allow:
+          - host: '*.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com'
+    catalog:
+      locations:
+        - rules:
+            - allow:
+                - Template
+          target: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/rhdh/trusted-application-pipeline-templates/blob/main/showcase-templates.yaml
+          type: url
+        - rules:
+            - allow:
+                - Template
+          target: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/rhdh/rhoai-on-rhdh-templates/blob/main/showcase-templates.yaml
+          type: url
+        - rules:
+            - allow:
+                - Group
+                - User
+          target: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/rhdh/trusted-application-pipeline-templates/blob/main/org.yaml
+          type: url
+        - rules:
+            - allow:
+                - Component
+                - System
+                - API
+                - Resource
+                - Location
+                - Template
+          target: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/rhdh/trusted-application-pipeline-templates/blob/main/catalogs.yaml
+          type: url
+        - rules:
+            - allow:
+                - Template
+          target: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/rhdh/redhat-developer-templates/blob/master/showcase-templates.yaml
+          type: url
+      providers:
+        gitlab:
+          selfHosted:
+            host: gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+            schedule:
+              frequency:
+                seconds: 10
+              timeout:
+                seconds: 60
+        ocm:
+          default:
+            kubernetesPluginRef: dev-cluster-infra
+            name: multiclusterhub
+            owner: group:rhdh
+            schedule:
+              frequency:
+                seconds: 10
+              timeout:
+                seconds: 60
+      rules:
+        - allow:
+            - Domain
+            - Component
+            - System
+            - API
+            - Resource
+            - Location
+            - Template
+    enabled:
+      argocd: true
+      github: false
+      githubOrg: false
+      gitlab: true
+      jenkins: true
+      keycloak: true
+      kubernetes: true
+      ocm: true
+      permission: false
+      sonarqube: false
+      techdocs: true
+    integrations:
+      gitlab:
+        - apiBaseUrl: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/api/v4
+          baseUrl: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+          host: gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+          token: glpat-ynbRMXtsWnkGkcCsh-an
+    jenkins:
+      instances:
+        - apiKey: 118c8462ddd9bdeffed82191e14092d7fe
+          baseUrl: https://jenkins-jenkins.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+          name: default
+          username: admin
+    kubernetes:
+      clusterLocatorMethods:
+        - clusters:
+            - authProvider: serviceAccount
+              name: dev-cluster-infra
+              serviceAccountToken: eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5THpOZFpnV1FDY290ekJSYUh6cVg2M2FIUEZSRmlBNmVSSWlqX2txLWMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjcxNjU2NTYzLWU3NjYtNDhmOC04ZTgxLTU5N2ZjMjAxZWFmMSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.aLjv1RJ3G4QOuxPdULLYNcaJ84W_VVm9VPG0_rGzmldPkgiCxu5q2kcY93l8j4v4m3qWBMy21oqgBdGZV1gUlvtIcQjehgI_VILdC3EGwCv4h3hW7qlYoeezIAGk1x9oMDxYl7aw9rV2M-eGvEro_kefDeakl8-Vz-TrwUfjmsqy84fTw3-ISadKQst407ZHqKyrOKSwz9jrT0Re5si5ViQpNS58LcCwCXKOaedVMAP-Ac1Rm73hnbMtPJQQlYRoR4AifBef26ynnCQgqCiztXkJQ_ova9zqXsO89pXRQH3hnPdfOPT2bUK6MD9cggTouLtFcpu1JhbEumuL7i8zm4IGLX_XZtRqOseYqpg204DoivW09I1_Vn9cZKujx2g2JiwswrzaHal4PPF5GECTlnj9J_BX6a7o-awy-9bf67vFbgPBYJLZJmBv4jgzxEhIzcsHFpo3KqkY2OESuqYPgBwyCfXHFoXBnT4wFAz9tgGn21AomOWpxB9qogQPQre2e_A6cLtc9_haJTtTAqvhM6kVcf_rPu8mHBUZQK_WwbuM-dKpJ2KDgnN11nrvnxFrYheb0YUWduGYNWP7s1wdrPWCipHeP9L1JclqK1U1UPyMLqc0ecmEqLVYnmnUF4-m2RXZi-dvSGKCPTD2TUl2U2AsS346M33w-o7pL0sSXoA
+              skipTLSVerify: true
+              url: https://api.cluster-xsd8j.xsd8j.sandbox483.opentlc.com:6443
+          type: config
+      customResources:
+        - apiVersion: v1beta1
+          group: tekton.dev
+          plural: pipelineruns
+        - apiVersion: v1beta1
+          group: tekton.dev
+          plural: taskruns
+        - apiVersion: v1
+          group: route.openshift.io
+          plural: routes
+      serviceLocatorMethod:
+        type: multiTenant
+    permission:
+      enabled: false
+    proxy:
+      endpoints:
+        /developer-hub:
+          changeOrigin: true
+          pathRewrite:
+            ^/api/proxy/developer-hub/tech-radar: /gitops/janus-idp-gitops/-/raw/main/config/tech-radar.json
+          secure: false
+          target: https://gitlab-gitlab.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/
+        /quay/api:
+          changeOrigin: true
+          headers:
+            Authorization: Bearer PI0QCCXNDIOSI5W6UF91Z5OCQFHAHGICIFZLGL7I
+            X-Requested-With: XMLHttpRequest
+          secure: false
+          target: https://quay-xsd8j.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+    quay:
+      uiUrl: https://quay-xsd8j.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+    scaffolder: null
+    signInPage: oauth2Proxy
+    techdocs:
+      builder: external
+      generator:
+        runIn: local
+      publisher:
+        awsS3:
+          bucketName: backstage-bucket
+          credentials:
+            accessKeyId: minio
+            secretAccessKey: MzI0NzY5
+          endpoint: https://minio-ic-shared-minio.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com
+          region: us-east-2
+          s3ForcePathStyle: true
+        type: awsS3

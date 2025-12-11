@@ -1,0 +1,37 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: lightspeed-app-config
+  namespace: backstage
+  labels:
+    rht-gitops.com/openshift-gitops: backstage-gitops
+data:
+  app-config.yaml: |-
+    backend:
+      csp:
+        upgrade-insecure-requests: false
+        img-src:
+          - "'self'"
+          - "data:"
+          - https://img.freepik.com
+          - https://cdn.dribbble.com
+          - https://avatars.githubusercontent.com
+        script-src:
+          - "'self'"
+          - "'unsafe-eval'"
+          - https://cdn.jsdelivr.net
+
+    lightspeed:
+      # MCP Server configuration - Lightspeed acts as MCP client connecting to RHDH MCP server
+      # Reference: https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.8/html-single/interacting_with_model_context_protocol_tools_for_red_hat_developer_hub/index
+      mcpServers:
+        - name: mcp::backstage
+          # URL to the RHDH MCP actions endpoint
+          url: https://backstage-developer-hub-backstage.apps.cluster-xsd8j.xsd8j.sandbox483.opentlc.com/api/mcp-actions/v1
+          # Static token configured in backend.auth.externalAccess
+          token: IodJaHuy36KjntFABXvhcqwRiI6yF6RY
+
+      # Custom user prompts displayed to users
+      prompts:
+        - title: "Getting Started with Red Hat Developer Hub"
+          message: Can you guide me through the first steps to start using {product-short} as a developer, like exploring the Software Catalog and adding my service?
