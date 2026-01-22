@@ -1,0 +1,332 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backstage-developer-hub
+  namespace: backstage
+  labels:
+    app.kubernetes.io/component: backstage
+    app.kubernetes.io/instance: backstage
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: developer-hub
+    helm.sh/chart: upstream-1.9.1
+    rht-gitops.com/openshift-gitops: backstage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: backstage
+      app.kubernetes.io/instance: backstage
+      app.kubernetes.io/name: developer-hub
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: backstage
+        app.kubernetes.io/instance: backstage
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: developer-hub
+        helm.sh/chart: upstream-1.9.1
+      annotations:
+        checksum/app-config: 43ddd83b82cf40ff61504de085b4e8fc0346f3fcacff405b8ace0296fd8187d4
+        checksum/dynamic-plugins: 0a484a25bb8d5c87a58e666eb1f79c1e7308962e0f59431b9a3089502a527373
+    spec:
+      restartPolicy: Always
+      initContainers:
+        - name: install-dynamic-plugins
+          image: quay.io/rhdh/rhdh-hub-rhel9:1.8
+          imagePullPolicy: Always
+          command:
+            - ./install-dynamic-plugins.sh
+            - /dynamic-plugins-root
+          env:
+            - name: NPM_CONFIG_USERCONFIG
+              value: /opt/app-root/src/.npmrc.dynamic-plugins
+          resources:
+            limits:
+              cpu: '1'
+              ephemeral-storage: 5Gi
+              memory: 2560Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: dynamic-plugins-root
+              mountPath: /dynamic-plugins-root
+            - name: dynamic-plugins
+              readOnly: true
+              mountPath: /opt/app-root/src/dynamic-plugins.yaml
+              subPath: dynamic-plugins.yaml
+            - name: dynamic-plugins-npmrc
+              readOnly: true
+              mountPath: /opt/app-root/src/.npmrc.dynamic-plugins
+              subPath: .npmrc
+            - name: dynamic-plugins-registry-auth
+              readOnly: true
+              mountPath: /opt/app-root/src/.config/containers
+            - name: npmcacache
+              mountPath: /opt/app-root/src/.npm/_cacache
+          workingDir: /opt/app-root/src
+        - name: init-rag-data
+          image: quay.io/redhat-ai-dev/rag-content:release-1.8-lcs
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - echo 'Copying RAG data...'; cp -r /rag/vector_db/rhdh_product_docs /data/
+              && cp -r /rag/embeddings_model /data/ && echo 'Copy complete.'
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /data
+              name: rag-data-volume
+      serviceAccountName: default
+      imagePullSecrets:
+        - name: redhat-gpte-devhub-pull-secret
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      securityContext: {}
+      containers:
+        - name: backstage-backend
+          image: quay.io/rhdh/rhdh-hub-rhel9:1.8
+          imagePullPolicy: Always
+          args:
+            - --config
+            - dynamic-plugins-root/app-config.dynamic-plugins.yaml
+            - --config
+            - /opt/app-root/src/app-config-from-configmap.yaml
+            - --config
+            - /opt/app-root/src/lightspeed-app-config.yaml
+          env:
+            - name: APP_CONFIG_backend_listen_port
+              value: "7007"
+            - name: POSTGRES_HOST
+              value: backstage-postgresql
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-postgresql
+                  key: postgres-password
+            - name: NODE_OPTIONS
+              value: --no-node-snapshot
+            - name: BACKEND_SECRET
+              value: dGs5ODJ5Sk5kWW1wcmt1bjNHakxWQVNy
+            - name: ORCHESTRATOR_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-orchestrator-token
+                  key: orchestrator-token
+            - name: APP_CONFIG_app_baseUrl
+              value: https://backstage-backstage.apps.cluster-wdtm8.wdtm8.sandbox1467.opentlc.com
+            - name: APP_CONFIG_backend_baseUrl
+              value: https://backstage-backstage.apps.cluster-wdtm8.wdtm8.sandbox1467.opentlc.com
+            - name: APP_CONFIG_backend_cors_origin
+              value: https://backstage-backstage.apps.cluster-wdtm8.wdtm8.sandbox1467.opentlc.com
+            - name: POSTGRES_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-postgresql
+                  key: postgres-password
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "0"
+            - name: APP_CONFIG_catalog_providers_keycloakOrg_default_baseUrl
+              value: https://keycloak-rhsso.apps.cluster-wdtm8.wdtm8.sandbox1467.opentlc.com/auth
+            - name: APP_CONFIG_catalog_providers_keycloakOrg_default_loginRealm
+              value: backstage
+            - name: APP_CONFIG_catalog_providers_keycloakOrg_default_realm
+              value: backstage
+            - name: APP_CONFIG_catalog_providers_keycloakOrg_default_clientId
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-client-secret-backstage
+                  key: CLIENT_ID
+            - name: APP_CONFIG_catalog_providers_keycloakOrg_default_clientSecret
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-client-secret-backstage
+                  key: CLIENT_SECRET
+            - name: LOG_LEVEL
+              value: debug
+          resources:
+            limits:
+              cpu: "1"
+              ephemeral-storage: 5Gi
+              memory: 2560Mi
+            requests:
+              cpu: 250m
+              memory: 1Gi
+          ports:
+            - name: backend
+              containerPort: 7007
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 7007
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 7007
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 2
+            periodSeconds: 10
+            successThreshold: 2
+            failureThreshold: 3
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: backstage-app-config
+              mountPath: /opt/app-root/src/app-config-from-configmap.yaml
+              subPath: app-config.yaml
+            - name: lightspeed-app-config
+              mountPath: /opt/app-root/src/lightspeed-app-config.yaml
+              subPath: app-config.yaml
+            - name: dynamic-plugins-root
+              mountPath: /opt/app-root/src/dynamic-plugins-root
+            - name: audit-log-data
+              mountPath: /var/log/audit
+        - name: oauth2-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - --provider=oidc
+            - --email-domain=*
+            - --upstream=http://localhost:7007
+            - --http-address=0.0.0.0:4180
+            - --skip-provider-button
+            - --insecure-oidc-allow-unverified-email=true
+          env:
+            - name: OAUTH2_PROXY_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-client-secret-backstage
+                  key: CLIENT_ID
+            - name: OAUTH2_PROXY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-client-secret-backstage
+                  key: CLIENT_SECRET
+            - name: OAUTH2_PROXY_COOKIE_SECRET
+              value: dnBiemZxbGlndHp4bml5dW1scWVpYXFvYXBoamN1ZmY=
+            - name: OAUTH2_PROXY_OIDC_ISSUER_URL
+              value: https://keycloak-rhsso.apps.cluster-wdtm8.wdtm8.sandbox1467.opentlc.com/auth/realms/backstage
+            - name: OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY
+              value: "true"
+          ports:
+            - name: oauth2-proxy
+              containerPort: 4180
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - name: llama-stack
+          image: quay.io/redhat-ai-dev/llama-stack:0.1.1
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: llama-stack-secrets
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /app-root/.llama
+              name: shared-storage
+            - mountPath: /app-root/embeddings_model
+              name: rag-data-volume
+              subPath: embeddings_model
+            - mountPath: /app-root/vector_db/rhdh_product_docs
+              name: rag-data-volume
+              subPath: rhdh_product_docs
+        - name: lightspeed-core
+          image: quay.io/lightspeed-core/lightspeed-stack:dev-20251021-ee9f08f
+          imagePullPolicy: IfNotPresent
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /app-root/lightspeed-stack.yaml
+              name: lightspeed-stack
+              subPath: lightspeed-stack.yaml
+            - mountPath: /tmp/data/feedback
+              name: shared-storage
+            - mountPath: /tmp/data/transcripts
+              name: shared-storage
+            - mountPath: /tmp/data/conversations
+              name: shared-storage
+      serviceAccount: default
+      volumes:
+        - name: dynamic-plugins-root
+          persistentVolumeClaim:
+            claimName: backstage-dynamic-plugins-root
+        - name: audit-log-data
+          persistentVolumeClaim:
+            claimName: backstage-audit-log
+        - name: dynamic-plugins
+          configMap:
+            name: backstage-dynamic-plugins
+            defaultMode: 420
+            optional: true
+        - name: dynamic-plugins-npmrc
+          secret:
+            secretName: backstage-dynamic-plugins-npmrc
+            defaultMode: 420
+            optional: true
+        - name: dynamic-plugins-registry-auth
+          secret:
+            secretName: backstage-dynamic-plugins-registry-auth
+            defaultMode: 416
+            optional: true
+        - name: npmcacache
+          emptyDir: {}
+        - name: backstage-app-config
+          configMap:
+            name: backstage-developer-hub-app-config
+            defaultMode: 420
+        - name: lightspeed-app-config
+          configMap:
+            name: lightspeed-app-config
+            defaultMode: 420
+        - name: lightspeed-stack
+          configMap:
+            name: lightspeed-stack
+            defaultMode: 420
+        - name: shared-storage
+          emptyDir: {}
+        - name: rag-data-volume
+          emptyDir: {}
+      dnsPolicy: ClusterFirst
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

@@ -205,7 +205,7 @@ spec:
                   title: Image Host
                   type: string
                   description: Host for storing image
-                  default: quay.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+                  default: quay.apps.cluster-ztfvg.dynamic.redhatworkshops.io
                 image_password:
                   title: Password
                   type: string
@@ -228,9 +228,9 @@ spec:
               title: Repo Host
               type: string
               description: Your SCM host
-              default: gitlab-gitlab.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+              default: gitlab-gitlab.apps.cluster-ztfvg.dynamic.redhatworkshops.io
               enum:
-                - gitlab-gitlab.apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+                - gitlab-gitlab.apps.cluster-ztfvg.dynamic.redhatworkshops.io
 
   steps:
     - id: template-orders-backend
@@ -246,7 +246,7 @@ spec:
           artifact_id: ${{ parameters.orders_be_artifact_id }}
           java_package_name: ${{ parameters.orders_be_java_package_name }}
           owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          cluster: apps.cluster-ztfvg.dynamic.redhatworkshops.io
           host: ${{ parameters.repo.host }}
           destination: ${{ user.entity.metadata.name }}/${{ parameters.orders_be_component_id }}
           port: 8080
@@ -265,7 +265,7 @@ spec:
           artifact_id: ${{ parameters.store_be_artifact_id }}
           java_package_name: ${{ parameters.store_be_java_package_name }}
           owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          cluster: apps.cluster-ztfvg.dynamic.redhatworkshops.io
           host: ${{ parameters.repo.host }}
           destination: ${{ user.entity.metadata.name }}/${{ parameters.store_be_component_id }}
           port: 8080
@@ -283,7 +283,7 @@ spec:
           description: ${{ parameters.fe_description }}
           namespace: ${{ parameters.fe_component_id }}-dev
           owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          cluster: apps.cluster-ztfvg.dynamic.redhatworkshops.io
           host: ${{ parameters.repo.host }}
           destination: ${{ user.entity.metadata.name }}/${{ parameters.fe_component_id }}
           port: 8080
@@ -358,7 +358,7 @@ spec:
           gitops_namespace: rhdh-gitops
           gitops_project: default
           port: 8080
-          cluster_subdomain: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          cluster_subdomain: apps.cluster-ztfvg.dynamic.redhatworkshops.io
           repository_host: ${{ parameters.repo.host }}
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.orders_be_component_id}}-gitops
     - id: template-store-backend-gitops-deployment
@@ -382,7 +382,7 @@ spec:
           gitops_namespace: rhdh-gitops
           gitops_project: default
           port: 8080
-          cluster_subdomain: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          cluster_subdomain: apps.cluster-ztfvg.dynamic.redhatworkshops.io
           repository_host: ${{ parameters.repo.host }}
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.store_be_component_id}}-gitops
     - id: template-store-frontend-gitops-deployment
@@ -407,7 +407,7 @@ spec:
           gitops_namespace: rhdh-gitops
           gitops_project: default
           port: 8080
-          cluster_subdomain: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          cluster_subdomain: apps.cluster-ztfvg.dynamic.redhatworkshops.io
           repository_host: ${{ parameters.repo.host }}
         targetPath: ./${{ user.entity.metadata.name }}-${{parameters.fe_component_id}}-gitops
 
@@ -456,7 +456,7 @@ spec:
           description: 'Gitops resources for the infrastructure'
           namespace: store-showcase
           owner: ${{ user.entity.metadata.name }}
-          cluster: apps.cluster-vngth.vngth.sandbox1898.opentlc.com
+          cluster: apps.cluster-ztfvg.dynamic.redhatworkshops.io
           host: ${{ parameters.repo.host }}
           destination: ${{ user.entity.metadata.name }}/showcase-infrastructure-gitops
           source_repository_gitops: https://${{ parameters.repo.host }}/${{ user.entity.metadata.name }}/showcase-infrastructure-gitops.git
